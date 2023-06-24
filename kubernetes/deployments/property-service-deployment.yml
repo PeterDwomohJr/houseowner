@@ -17,6 +17,10 @@ spec:
         - name: property-service
           image: property-service
           imagePullPolicy: ifNotPresent
+          lifecycle:
+            preStop:
+              exec:
+                command: ["sh", "-c", "sleep 5"]
           ports:
             - containerPort: 9091
           env:

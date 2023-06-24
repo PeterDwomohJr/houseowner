@@ -89,6 +89,10 @@ public class Property implements PropertyInterface {
     }
 
 
+    /**
+     * This can be called only by only a person with an administrative account
+     */
+
     @Override
     public void changeStatus() {
 

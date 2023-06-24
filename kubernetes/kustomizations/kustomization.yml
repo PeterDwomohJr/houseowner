@@ -1,0 +1,14 @@
+apiVersion: kustomize.config.k8s.io/houseowner
+kind: Kustomization
+
+resources:
+  - deployment.yml
+  - service.yml
+
+configMapGenerator:
+  - name: property-config
+    files:
+      - application.yml
+    options:
+      labels:
+        app: property-service

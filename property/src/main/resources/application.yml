@@ -1,0 +1,21 @@
+server:
+  port: 9090
+  netty:
+    connection-timeout: 300
+  error:
+    whitelabel:
+      enabled: false
+
+
+spring:
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017
+      database: propertydatabase
+      username: admin
+      password: admin
+
+
+
+
+

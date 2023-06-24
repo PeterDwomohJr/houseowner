@@ -1,0 +1,8 @@
+spring:
+  datasource:
+    url:
+  security:
+    oauth:
+      resourceserver:
+        jwt:
+          issuer-url: http://houseowner-keycloak/realms/houseowner

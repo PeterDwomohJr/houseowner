@@ -5,6 +5,7 @@ metadata:
   label:
     app: property-service
 spec:
+  replicas: 3
   selector:
     matchLabels:
       app: property-service

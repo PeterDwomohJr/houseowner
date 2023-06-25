@@ -10,6 +10,7 @@ public class User {
     private String firstName;
     private String surname;
     private String otherName;
+    private String birthDate;
     private String phoneNumber;
     private String nationalIdNumber;
     private String gender;

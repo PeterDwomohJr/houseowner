@@ -14,4 +14,3 @@ spring:
         provider:
           keycloak:
             issuerUri: http://localhost:8080/realms/Houseowner
-

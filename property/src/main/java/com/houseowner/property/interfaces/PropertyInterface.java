@@ -2,10 +2,17 @@ package com.houseowner.property.interfaces;
 
 import com.houseowner.property.DTOs.PropertyDTO;
 import com.houseowner.property.aggregates.entities.Property;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
 import java.math.BigDecimal;
+
+/**
+ * @author Peter Dwomoh Junior
+ * @version 0.0.0
+ * @since 0.0.0
+ *
+ * Invariant: A property will have messages that defines the communication that has taken place between
+ * the buyer and seller. No personal or contact information must be shared between the buyer and the seller.
+ */
 
 public interface PropertyInterface {
 

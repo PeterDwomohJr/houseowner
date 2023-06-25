@@ -11,6 +11,14 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+/**
+ * @author Peter Dwomoh Junior
+ * @version 0.0.0
+ * @since 0.0.0
+ *
+ * Class Invariant: A property will have messages that defines the communication that has taken place between
+ * the buyer and seller. No personal or contact information must be shared between the buyer and the seller.
+ */
 @Data
 @Document("property")
 @Component

@@ -16,7 +16,7 @@ public class PropertyWriteController {
     private static final Logger logger = Logger.getLogger(PropertyWriteController.class.getName());
 
 
-    @PreAuthorize("hasRole('AUTHENTICATED_USER)")
+    @PreAuthorize("hasRole('CUSTOMER')")
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/v0/property/create")
     public void createProperty(@RequestBody PropertyDTO propertyDTO)
@@ -26,7 +26,7 @@ public class PropertyWriteController {
     }
 
 
-    @PreAuthorize("hasRole('AUTHENTICATED_USER)")
+    @PreAuthorize("hasRole('CUSTOMER')")
     @PatchMapping("/v0/property/update/{id}")
     public void updateProperty(@PathVariable String id, @RequestBody PropertyDTO propertyDTO)
     {
@@ -35,7 +35,7 @@ public class PropertyWriteController {
     }
 
 
-    @PreAuthorize("hasRole('AUTHENTICATED_USER)")
+    @PreAuthorize("hasRole('CUSTOMER')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/v0/property/delete/{id}")
     public void deleteProperty(@PathVariable String id)
@@ -45,7 +45,7 @@ public class PropertyWriteController {
     }
 
 
-    @PreAuthorize("hasRole('AUTHENTICATED_USER)")
+    @PreAuthorize("hasRole('CUSTOMER')")
     @PostMapping("/v0/property/buy/{id}")
     public void buyProperty(@PathVariable String id)
     {
@@ -54,7 +54,7 @@ public class PropertyWriteController {
     }
 
 
-    @PreAuthorize("hasRole('ADMIN)")
+    @PreAuthorize("hasRole('EMPLOYEE')")
     @PatchMapping("/v0/property/status/{id}")
     public void changePropertyStatus(@PathVariable String id)
     {

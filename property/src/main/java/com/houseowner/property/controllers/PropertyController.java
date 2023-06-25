@@ -19,7 +19,7 @@ public class PropertyController {
     private static final Logger logger = Logger.getLogger(PropertyController.class.getName());
 
 
-    @PreAuthorize("hasRole('AUTHENTICATED_USER)")
+    @PreAuthorize("hasRole('CUSTOMER')")
     @GetMapping("/v0/property/{id}")
     public Mono<Property> getProperty(@PathVariable String id)
     {

@@ -5,7 +5,9 @@ services:
   keycloak:
       image: quay.io/keycloak/keycloak:19.0.1
       container_name: houseowner-keycloak
-      command: start-dev
+      command: start-dev --import-realm
+      volumes:
+        - ./keycloak:/opt/keycloak/data/import
       environment:
         KEYCLOAK_ADMIN: admin
         KEYCLOAK_ADMIN_PASSWORD: keycloakadmin

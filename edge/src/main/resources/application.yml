@@ -1,3 +1,17 @@
 server:
   port: 9092
   shutdown: graceful
+
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            clientId: edge-service
+            clientSecret: houseowner-keycloak-secret
+            scope: openid
+        provider:
+          keycloak:
+            issuerUri: http://localhost:8080/realms/Houseowner
+

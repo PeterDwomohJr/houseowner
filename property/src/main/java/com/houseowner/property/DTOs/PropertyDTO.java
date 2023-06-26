@@ -3,8 +3,8 @@ package com.houseowner.property.DTOs;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.stereotype.Component;
-
 import java.math.BigDecimal;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -16,6 +16,6 @@ public class PropertyDTO {
     private double landSize;
     private BigDecimal price;
     private String location;
-    private String pictures;
+    private List<String> pictures;
     private String owner;
 }

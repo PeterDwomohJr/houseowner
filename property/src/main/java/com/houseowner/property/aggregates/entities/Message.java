@@ -1,4 +1,4 @@
-package com.houseowner.property.aggregates.valueObjects;
+package com.houseowner.property.aggregates.entities;
 
 import com.houseowner.property.DTOs.MessageDTO;
 import lombok.AllArgsConstructor;
@@ -19,6 +19,7 @@ import java.util.UUID;
 public class Message {
 
     @Id
+    private String messageId;
     private String PropertyId;
     private String content;
     private String senderName;
@@ -41,6 +42,7 @@ public class Message {
         message.setSenderName(messageDTO.getSenderName());
         message.setReceiverName(messageDTO.getReceiverName());
         message.setTimestamp(LocalDateTime.now());
+        message.setMessageId(UUID.randomUUID().toString());
         message.setPropertyId(messageDTO.getPropertyId());
         message.setDeleted(messageDTO.isDeleted());
 
@@ -48,9 +50,9 @@ public class Message {
     }
 
 
-    public void editMessage(String newContent) {
+    public void updateMessage(String newContent) {
 
-        this.content = content;
+        this.content = newContent;
         this.dateModified = LocalDateTime.now();
     }
 

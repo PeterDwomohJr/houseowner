@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -31,7 +32,8 @@ public class Property implements PropertyInterface {
     private double landSize;
     private BigDecimal price;
     private String location;
-    private String pictures;
+    private List<String> pictures;
+    private List<String> messages;
     private String status;
     private String owner;
     private boolean deleted;

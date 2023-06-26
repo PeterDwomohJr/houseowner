@@ -4,6 +4,7 @@ import com.houseowner.property.DTOs.PropertyDTO;
 import com.houseowner.property.aggregates.entities.Property;
 import reactor.core.publisher.Mono;
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * @author Peter Dwomoh Junior
@@ -28,7 +29,7 @@ public interface PropertyInterface {
     double getLandSize();
     BigDecimal getPrice();
     String getLocation();
-    String getPictures();
+    List<String> getPictures();
     String getStatus();
     String getOwner();
     boolean isDeleted();

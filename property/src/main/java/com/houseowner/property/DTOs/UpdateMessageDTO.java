@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 @NoArgsConstructor
 @Component
-public record UpdateMessageDTO(
-  String messageId,
-  String propertyId,
-  String newContent
-) {}
+public class UpdateMessageDTO {
+    private String messageId;
+    private String propertyId;
+    private String newContent;
+}

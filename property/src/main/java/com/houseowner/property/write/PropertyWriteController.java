@@ -70,7 +70,7 @@ public class PropertyWriteController {
 
     @PreAuthorize("hasRole('CUSTOMER')")
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/message/create")
+    @PostMapping("/v0/message/create")
     public void createMessage(@RequestBody MessageDTO messageDTO)
     {
         LOGGER.info("You have successfully called the /message/create API");
@@ -79,7 +79,7 @@ public class PropertyWriteController {
 
 
     @PreAuthorize("hasRole('CUSTOMER')")
-    @PatchMapping("/message/update")
+    @PatchMapping("/v0/message/update")
     public void updateMessage(@RequestBody UpdateMessageDTO updateMessageDTO)
     {
         LOGGER.info("You have successfully called the /message/update API");
@@ -88,7 +88,7 @@ public class PropertyWriteController {
 
 
     @PreAuthorize("hasRole('CUSTOMER')")
-    @PatchMapping("/message/delete")
+    @PatchMapping("/v0/message/delete")
     public void deleteMessage(@PathVariable String id)
     {
         LOGGER.info("You have successfully called the /message/delete API");

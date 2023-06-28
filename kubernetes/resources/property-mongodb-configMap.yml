@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 apiVersion : v1
 kind : ConfigMap
 metadata:
@@ -6,3 +7,12 @@ data:
   host : property-mongodb-service
   port : "27017"
   database : propertydatabase
+=======
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: property-mongodb-configmap
+data:
+  host: property-mongodb-service
+  database: propertydatabase
+>>>>>>> origin/main

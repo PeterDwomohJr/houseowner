@@ -1,16 +1,15 @@
 package com.houseowner.property.services;
 
 import com.houseowner.property.DTOs.MessageDTO;
+import com.houseowner.property.DTOs.PropertyDTO;
 import com.houseowner.property.DTOs.UpdateMessageDTO;
 import com.houseowner.property.adapters.databaseAdapter.repository.MessageRepository;
 import com.houseowner.property.adapters.databaseAdapter.repository.PropertyRepository;
 import com.houseowner.property.aggregates.entities.Message;
-import com.houseowner.property.aggregates.entities.Property;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import java.util.Collections;
 
 @Service
 public class MessageService {
@@ -35,22 +34,15 @@ public class MessageService {
         Mono<Message> messageToSave = message.createMessage(messageDTO);
 
         // get the property which is associated with the message
-        Mono<Property> propertyMono = propertyService.getProperty(messageDTO.getPropertyId());
+        Mono<PropertyDTO> propertyMono = propertyService.getProperty(messageDTO.getPropertyId());
 
         // set the newly created message to the property object
-        propertyMono.map(property -> {
-            property.setMessages(Collections.singletonList(messageToSave.toString()));
 
-            propertyMono.flatMap(propertyRepository::save);
-
-            return propertyMono;
-        });
 
         // save the newly created message in its own repository
-        messageToSave.flatMap(messageRepository::save);
 
         // save the property back into the repository
-        propertyMono.flatMap(propertyRepository::save);
+
     }
 
 
@@ -69,7 +61,7 @@ public class MessageService {
     public void updateMessage(UpdateMessageDTO updateMessageDTO)
     {
         // retrieve the property which is associated with the message from the repository
-        Mono<Property> propertyMono = propertyService.getProperty(updateMessageDTO.getPropertyId());
+        Mono<PropertyDTO> propertyMono = propertyService.getProperty(updateMessageDTO.getPropertyId());
 
        // retrieve the message which has been saved and is to updated from the repository
         Mono<Message> messageMono = messageRepository.findById(updateMessageDTO.getMessageId());
@@ -82,19 +74,13 @@ public class MessageService {
         });
 
         // set the new message content to the property object
-        propertyMono.map(propertyToEdit -> {
-            propertyToEdit.setMessages(Collections.singletonList(updateMessageDTO.getNewContent()));
 
-            propertyMono.flatMap(propertyRepository::save);
-
-            return propertyMono;
-        });
 
         // save the updated message back into the repository
        messageMono.flatMap(messageRepository::save);
 
         // save the updated property back into the repository
-        propertyMono.flatMap(propertyRepository::save);
+
     }
 
 

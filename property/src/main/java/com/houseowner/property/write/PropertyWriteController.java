@@ -7,8 +7,8 @@ import com.houseowner.property.services.MessageService;
 import com.houseowner.property.services.PropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Mono;
 import java.util.logging.Logger;
 
 @RestController
@@ -21,26 +21,26 @@ public class PropertyWriteController {
     private static final Logger LOGGER = Logger.getLogger(PropertyWriteController.class.getName());
 
 
-    @PreAuthorize("hasRole('CUSTOMER')")
+    //@PreAuthorize("hasRole('CUSTOMER')")
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/v0/property/create")
-    public void createProperty(@RequestBody PropertyDTO propertyDTO)
+    public void createProperty(@RequestBody Mono<PropertyDTO> propertyDTO)
     {
         LOGGER.info("You have successfully called the /v0/property/create API");
-        propertyService.createProperty(propertyDTO);
+        propertyService.saveProperty(propertyDTO);
     }
 
 
-    @PreAuthorize("hasRole('CUSTOMER')")
+    //@PreAuthorize("hasRole('CUSTOMER')")
     @PatchMapping("/v0/property/update/{id}")
-    public void updateProperty(@PathVariable String id, @RequestBody PropertyDTO propertyDTO)
+    public void updateProperty(@PathVariable String id, @RequestBody Mono<PropertyDTO> propertyDTO)
     {
         LOGGER.info("You have successfully called the /v0/property/update/{id} API");
         propertyService.updateProperty(id, propertyDTO);
     }
 
 
-    @PreAuthorize("hasRole('CUSTOMER')")
+    //@PreAuthorize("hasRole('CUSTOMER')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/v0/property/delete/{id}")
     public void deleteProperty(@PathVariable String id)
@@ -50,7 +50,7 @@ public class PropertyWriteController {
     }
 
 
-    @PreAuthorize("hasRole('CUSTOMER')")
+    //@PreAuthorize("hasRole('CUSTOMER')")
     @PostMapping("/v0/property/buy/{id}")
     public void buyProperty(@PathVariable String id)
     {
@@ -59,7 +59,7 @@ public class PropertyWriteController {
     }
 
 
-    @PreAuthorize("hasRole('EMPLOYEE')")
+    //@PreAuthorize("hasRole('EMPLOYEE')")
     @PatchMapping("/v0/property/status/{id}")
     public void changePropertyStatus(@PathVariable String id)
     {
@@ -68,7 +68,7 @@ public class PropertyWriteController {
     }
 
 
-    @PreAuthorize("hasRole('CUSTOMER')")
+    //@PreAuthorize("hasRole('CUSTOMER')")
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/v0/message/create")
     public void createMessage(@RequestBody MessageDTO messageDTO)
@@ -78,7 +78,7 @@ public class PropertyWriteController {
     }
 
 
-    @PreAuthorize("hasRole('CUSTOMER')")
+    //@PreAuthorize("hasRole('CUSTOMER')")
     @PatchMapping("/v0/message/update")
     public void updateMessage(@RequestBody UpdateMessageDTO updateMessageDTO)
     {
@@ -87,7 +87,7 @@ public class PropertyWriteController {
     }
 
 
-    @PreAuthorize("hasRole('CUSTOMER')")
+    //@PreAuthorize("hasRole('CUSTOMER')")
     @PatchMapping("/v0/message/delete")
     public void deleteMessage(@PathVariable String id)
     {

@@ -18,8 +18,6 @@ import java.util.List;
 public interface PropertyInterface {
 
     Mono<Property> create(PropertyDTO propertyDTO);
-    void update(PropertyDTO propertyDTO);
-    void delete();
     void buy();
     void changeStatus();
     void setId(String Id);
@@ -29,7 +27,7 @@ public interface PropertyInterface {
     double getLandSize();
     BigDecimal getPrice();
     String getLocation();
-    List<String> getPictures();
+    String getPictures();
     String getStatus();
     String getOwner();
     boolean isDeleted();

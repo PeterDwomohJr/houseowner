@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: property
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: property
+  template:
+    metadata:
+      labels:
+        app: property
+    spec:
+      containers:
+        - name: property
+          image: property-image:latest
+          ports:
+            - containerPort: 9090
+          envFrom:
+            - configMapRef:
+                name: property-configmap
+
+
+
+

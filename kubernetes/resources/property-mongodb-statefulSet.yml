@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: property-mongodb
+  labels:
+    app: property-mongodb
+spec:
+  replicas: 3
+  serviceName: property-mongodb-service
+  selector:
+    matchLabels:
+      app: property-mongodb
+  template:
+    metadata:
+      labels:
+        app: property-mongodb
+    spec:
+      containers:
+        - name: mongo
+          image: mongo:4.4
+          ports:
+            - containerPort: 27017
+          volumeMounts:
+            - name: mongo-data
+              mountPath: /data/db
+            - name: mongo-config
+              mountPath: /etc/mongo
+              readOnly: true
+          command:
+            - mongod
+            - "--config"
+            - "/etc/mongo/mongod.conf"
+          env:
+            - name: MONGO_ROOT_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-secret
+                  key: username
+            - name: MONGO_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-secret
+                  key: password
+      volumes:
+        - name: property-mongodb-configmap
+          configMap:
+            name: property-mongodb-configmap
+  volumeClaimTemplates:
+    - metadata:
+        name: property-mongodb-data
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: property-mongodb-storage
+        resources:
+          requests:
+            storage: 10Gi

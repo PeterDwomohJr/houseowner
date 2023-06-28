@@ -3,7 +3,8 @@ package com.houseowner.property.services;
 import com.houseowner.property.DTOs.PropertyDTO;
 import com.houseowner.property.adapters.databaseAdapter.repository.PropertyRepository;
 import com.houseowner.property.aggregates.entities.Property;
-import org.springframework.security.access.prepost.PreAuthorize;
+import com.houseowner.property.utilities.AppUtils;
+import org.springframework.data.domain.Range;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -12,7 +13,8 @@ import reactor.core.publisher.Mono;
 public class PropertyService {
     private final PropertyRepository propertyRepository;
 
-    public PropertyService(PropertyRepository propertyRepository) {
+    public PropertyService(PropertyRepository propertyRepository)
+    {
         this.propertyRepository = propertyRepository;
     }
 
@@ -28,75 +30,68 @@ public class PropertyService {
 
 
     //@PostFilter("filterObject.owner == authentication.name")
-    public Mono<Property> getProperty(String id) {
+    public Mono<PropertyDTO> getProperty(String id) {
 
         // return the property with an id derived from the property
-        return propertyRepository.findById(id);
+        return propertyRepository.findById(id).map(AppUtils::entityToDTO);
     }
 
 
-    public Flux<Property> listProperties() {
+    public Flux<PropertyDTO> listProperties() {
 
         // return all the properties that is in the repository
-        return propertyRepository.findAll();
+        return propertyRepository.findAll().map(AppUtils::entityToDTO);
+    }
+
+
+    public Flux<PropertyDTO> listPropertiesInPriceRange(double min, double max) {
+
+        return propertyRepository.findByPriceBetween(Range.closed(min, max));
+    }
+
+
+    public Mono<PropertyDTO> saveProperty(Mono<PropertyDTO> propertyDTO) {
+
+        return propertyDTO.map(AppUtils::dtoToEntity)
+                .flatMap(propertyRepository::insert)
+                .map(AppUtils::entityToDTO);
     }
 
 
     //@PreAuthorize("hasRole('AUTHENTICATED_USER')")
-    public void updateProperty(String id, PropertyDTO propertyDTO) {
+    public Mono<PropertyDTO> updateProperty(String id, Mono<PropertyDTO> propertyDTO) {
 
-        Mono<Property> propertyMono = this.getProperty(id);
+        return propertyRepository.findById(id)
+                .flatMap(property -> propertyDTO.map(AppUtils::dtoToEntity))
+                .doOnNext(productEntity -> productEntity.setId(id))
+                .flatMap(propertyRepository::save)
+                .map(AppUtils::entityToDTO);
+    }
 
-        propertyMono.flatMap(updatedProperty -> {
+    /**
+     * The default deletion is soft-deletion
+     */
+    //@PreAuthorize("hasRole('AUTHENTICATED_USER')")
+    public Mono<Void> deleteProperty(String id) {
 
-            updatedProperty.update(propertyDTO);
-
-            return propertyMono;
-        });
+        return propertyRepository.deleteById(id);
     }
 
 
-    @PreAuthorize("hasRole('AUTHENTICATED_USER')")
-    public void deleteProperty(String id) {
-
-        Mono<Property> propertyMono = this.getProperty(id);
-
-        propertyMono.flatMap(deletedProperty -> {
-
-            deletedProperty.delete();
-
-            return propertyMono;
-        });
-    }
-
-
-    @PreAuthorize("hasRole('AUTHENTICATED_USER')")
+    //@PreAuthorize("hasRole('AUTHENTICATED_USER')")
     public void buyProperty(String id) {
 
-        Mono<Property> propertyMono = this.getProperty(id);
-
-        //TODO Implement the messaging logic between the buyer and the seller
-
-        propertyMono.flatMap(boughtProperty -> {
-
-            boughtProperty.buy();
-
-            return propertyMono;
-        });
+        Mono<PropertyDTO> propertyMono = this.getProperty(id)
+                .doOnNext(propertyEntity -> propertyEntity.setDeleted(true));
 
     }
 
 
-    @PreAuthorize("hasRole('ADMIN')")
+    //@PreAuthorize("hasRole('ADMIN')")
     public void changePropertyStatus(String id) {
 
-        Mono<Property> propertyMono = this.getProperty(id);
-
-        propertyMono.flatMap(statusChangedProperty -> {
-
-            statusChangedProperty.changeStatus();
-
-            return propertyMono;
-        });
+        Mono<PropertyDTO> propertyMono = this.getProperty(id)
+                .doOnNext(propertyEntity -> propertyEntity.setStatus("ACTIVE"));
     }
+
 }

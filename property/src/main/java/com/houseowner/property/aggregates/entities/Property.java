@@ -21,7 +21,7 @@ import java.util.UUID;
  * the buyer and seller. No personal or contact information must be shared between the buyer and the seller.
  */
 @Data
-@Document("property")
+@Document(collection = "property")
 @Component
 public class Property implements PropertyInterface {
 
@@ -32,16 +32,16 @@ public class Property implements PropertyInterface {
     private double landSize;
     private BigDecimal price;
     private String location;
-    private List<String> pictures;
-    private List<String> messages;
+    private String pictures;
+    private String messages;
     private String status;
     private String owner;
     private boolean deleted;
-    private LocalDateTime dateCreated;
-    private LocalDateTime dateModified;
-    private final double DEFAULT_DOUBLE_VALUE = 0.0;
-    private final String DEFAULT_PROPERTY_STATUS = "PENDING";
-    private final String ACTIVE_PROPERTY_VALUE = "ACTIVE";
+    //private LocalDateTime dateCreated;
+    //private LocalDateTime dateModified;
+    //private final double DEFAULT_DOUBLE_VALUE = 0.0;
+    //private final String DEFAULT_PROPERTY_STATUS = "PENDING";
+    //private final String ACTIVE_PROPERTY_VALUE = "ACTIVE";
 
 
     @Override
@@ -56,36 +56,13 @@ public class Property implements PropertyInterface {
         property.setLocation(property.getLocation());
         property.setPictures(propertyDTO.getPictures());
         property.setOwner(propertyDTO.getOwner());
-        property.setDateCreated(LocalDateTime.now());
-        property.setStatus(DEFAULT_PROPERTY_STATUS);
-        property.setId(UUID.randomUUID().toString());
+        //property.setDateCreated(LocalDateTime.now());
+        //property.setStatus(DEFAULT_PROPERTY_STATUS);
+        //property.setId(UUID.randomUUID().toString());
 
         return Mono.just(property);
     }
 
-
-    @Override
-    public void update(PropertyDTO propertyDTO) {
-
-            if (!propertyDTO.getType().equals(null)) this.type = propertyDTO.getType();
-            if (!propertyDTO.getLandTitleNumber().equals(null)) this.landTitleNumber = propertyDTO.getLandTitleNumber();
-            if (propertyDTO.getLandSize() != DEFAULT_DOUBLE_VALUE) this.landSize = propertyDTO.getLandSize();
-            if (!propertyDTO.getPrice().equals(null)) this.price = propertyDTO.getPrice();
-            if (!propertyDTO.getLocation().equals(null)) this.location = propertyDTO.getLocation();
-            if (!propertyDTO.getPictures().equals(null)) this.pictures = propertyDTO.getPictures();
-            if (!propertyDTO.getOwner().equals(null)) this.owner = propertyDTO.getOwner();
-            this.dateModified = LocalDateTime.now();
-    }
-
-
-    /**
-     * The default deletion is soft-deletion.
-     */
-    @Override
-    public void delete() {
-
-        this.deleted = true;
-    }
 
 
     /**
@@ -93,8 +70,8 @@ public class Property implements PropertyInterface {
      */
     @Override
     public void buy() {
-        if (this.status.equals(ACTIVE_PROPERTY_VALUE)) {
-            this.delete();
+        if (this.status.equals("ACTIVE")) { //ACTIVE_PROPERTY_VALUE)) {
+            this.deleted = true;
         }
     }
 
@@ -106,7 +83,7 @@ public class Property implements PropertyInterface {
     @Override
     public void changeStatus() {
 
-        this.status = ACTIVE_PROPERTY_VALUE;
+        this.status = "ACTIVE"; //ACTIVE_PROPERTY_VALUE;
     }
 
 

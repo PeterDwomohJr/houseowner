@@ -5,6 +5,8 @@ import com.houseowner.property.adapters.databaseAdapter.repository.PropertyRepos
 import com.houseowner.property.aggregates.entities.Property;
 import com.houseowner.property.utilities.AppUtils;
 import org.springframework.data.domain.Range;
+import org.springframework.security.access.prepost.PostFilter;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -29,7 +31,7 @@ public class PropertyService {
     }
 
 
-    //@PostFilter("filterObject.owner == authentication.name")
+    @PostFilter("filterObject.owner == authentication.name")
     public Mono<PropertyDTO> getProperty(String id) {
 
         // return the property with an id derived from the property
@@ -58,7 +60,7 @@ public class PropertyService {
     }
 
 
-    //@PreAuthorize("hasRole('AUTHENTICATED_USER')")
+    @PreAuthorize("hasRole('AUTHENTICATED_USER')")
     public Mono<PropertyDTO> updateProperty(String id, Mono<PropertyDTO> propertyDTO) {
 
         return propertyRepository.findById(id)
@@ -68,17 +70,14 @@ public class PropertyService {
                 .map(AppUtils::entityToDTO);
     }
 
-    /**
-     * The default deletion is soft-deletion
-     */
-    //@PreAuthorize("hasRole('AUTHENTICATED_USER')")
+    @PreAuthorize("hasRole('AUTHENTICATED_USER')")
     public Mono<Void> deleteProperty(String id) {
 
         return propertyRepository.deleteById(id);
     }
 
 
-    //@PreAuthorize("hasRole('AUTHENTICATED_USER')")
+    @PreAuthorize("hasRole('AUTHENTICATED_USER')")
     public void buyProperty(String id) {
 
         Mono<PropertyDTO> propertyMono = this.getProperty(id)
@@ -87,7 +86,7 @@ public class PropertyService {
     }
 
 
-    //@PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public void changePropertyStatus(String id) {
 
         Mono<PropertyDTO> propertyMono = this.getProperty(id)

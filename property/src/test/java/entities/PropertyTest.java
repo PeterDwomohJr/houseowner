@@ -2,16 +2,17 @@ package entities;
 
 import com.houseowner.property.DTOs.PropertyDTO;
 import com.houseowner.property.aggregates.entities.Property;
-import com.houseowner.property.interfaces.PropertyInterface;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
 import java.math.BigDecimal;
 import static org.assertj.core.api.Assertions.assertThat;
 
+@SpringBootTest
 public class PropertyTest {
+    private final String PROPERTY_ID = "0";
+    private final String UPDATED_PROPERTY_ID = "1";
     Property property;
     PropertyDTO newPropertyDTO;
     PropertyDTO updatePropertyDTO;
@@ -27,11 +28,12 @@ public class PropertyTest {
     String updatedLocation = "Derby";
     String pictures = "helloEarth.jpg";
     String updatedPictures = "helloVenus.png";
+    String messages = "I am interested in the land";
+    String updatedMessages = "I am interested in the house";
     String status = "PENDING";
     String updatedStatus = "ACTIVE";
     String owner = "KWADWO DWOMO II";
     String updatedOwner = "NANA BOAKYEWAA";
-    private final String PROPERTY_ID = "0";
 
 
     @BeforeMethod
@@ -40,22 +42,30 @@ public class PropertyTest {
         property = new Property();
 
         updatePropertyDTO = new PropertyDTO(
+                UPDATED_PROPERTY_ID,
                 updatedType,
                 updatedLandTitleNumber,
                 updatedLandSize,
                 updatedPrice,
                 updatedLocation,
                 updatedPictures,
-                updatedOwner);
+                updatedMessages,
+                updatedStatus,
+                updatedOwner,
+                true);
 
         newPropertyDTO = new PropertyDTO(
+                PROPERTY_ID,
                 type,
                 landTitleNumber,
                 landSize,
                 price,
                 location,
                 pictures,
-                owner);
+                messages,
+                status,
+                owner,
+                false);
     }
 
     @Test
@@ -86,7 +96,7 @@ public class PropertyTest {
 
         updatedProperty.flatMap(updatedPropertyMono -> {
 
-            updatedPropertyMono.update(updatePropertyDTO);
+            // IMPLEMENT THE UPDATE METHOD
 
             return updatedProperty;
         });
@@ -115,7 +125,8 @@ public class PropertyTest {
 
         deletedProperty.flatMap(updatedPropertyMono -> {
 
-            updatedPropertyMono.delete();
+           // IMPLEMENT THE DELETE METHOD
+
             return deletedProperty;
         });
 
@@ -169,3 +180,4 @@ public class PropertyTest {
         });
     }
 }
+

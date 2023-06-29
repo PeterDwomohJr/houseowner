@@ -10,8 +10,8 @@ server:
 spring:
   data:
     mongodb:
-      uri: localhost:27017
-      database: propertydatabase
+      host: ${host}
+      database: ${database}
 
 
 

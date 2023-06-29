@@ -5,6 +5,7 @@ import com.houseowner.property.aggregates.entities.Message;
 import com.houseowner.property.services.MessageService;
 import com.houseowner.property.services.PropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,7 +23,7 @@ public class PropertyController {
     private static final Logger LOGGER = Logger.getLogger(PropertyController.class.getName());
 
 
-    //@PreAuthorize("hasRole('CUSTOMER')")
+    @PreAuthorize("hasRole('CUSTOMER')")
     @GetMapping("/v0/property/{id}")
     public Mono<PropertyDTO> getProperty(@PathVariable String id)
     {
@@ -39,7 +40,7 @@ public class PropertyController {
     }
 
 
-    //@PreAuthorize("hasRole('CUSTOMER')")
+    @PreAuthorize("hasRole('CUSTOMER')")
     @GetMapping("/v0/message/{id}")
     public Mono<Message> getMessage(@PathVariable String id)
     {

@@ -1,12 +1,12 @@
-apiVersion : v1
-kind : Service
+apiVersion: v1
+kind: Service
 metadata:
-  name : property-service
+  name: property-service
 spec:
   selector:
-    app : property
+    app: property
   ports:
-    - protocol : TCP
-      port : 80
-      targetPort : 9090
+    - protocol: TCP
+      port: 80
+      targetPort: 9090
   type: ClusterIP

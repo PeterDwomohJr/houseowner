@@ -1,8 +1,8 @@
-apiVersion : v1
-kind : ConfigMap
+apiVersion: v1
+kind: ConfigMap
 metadata:
-  name : property-configmap
+  name: property-configmap
 data:
-  host : property-service
-  port : "27017"
+  host: property-service
+  port: "27017"
   database: propertydatabase

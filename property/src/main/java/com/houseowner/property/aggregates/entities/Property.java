@@ -3,6 +3,7 @@ package com.houseowner.property.aggregates.entities;
 import com.houseowner.property.DTOs.PropertyDTO;
 import com.houseowner.property.interfaces.PropertyInterface;
 import lombok.Data;
+import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.stereotype.Component;
@@ -37,11 +38,13 @@ public class Property implements PropertyInterface {
     private String status;
     private String owner;
     private boolean deleted;
-    //private LocalDateTime dateCreated;
-    //private LocalDateTime dateModified;
-    //private final double DEFAULT_DOUBLE_VALUE = 0.0;
-    //private final String DEFAULT_PROPERTY_STATUS = "PENDING";
-    //private final String ACTIVE_PROPERTY_VALUE = "ACTIVE";
+    private LocalDateTime dateCreated;
+    private LocalDateTime dateModified;
+    @CreatedBy
+    private String createdBy;
+    private final double DEFAULT_DOUBLE_VALUE = 0.0;
+    private final String DEFAULT_PROPERTY_STATUS = "PENDING";
+    private final String ACTIVE_PROPERTY_VALUE = "ACTIVE";
 
 
     @Override

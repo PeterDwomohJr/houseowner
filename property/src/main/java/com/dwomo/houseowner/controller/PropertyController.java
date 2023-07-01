@@ -50,11 +50,20 @@ public class PropertyController {
 
 
 
+    @GetMapping("/pending")
+    public Flux<PropertyDTO> getPendingProperties()
+    {
+        return propertyService.getPendingProperties();
+    }
+
+
+
     @GetMapping("/soft-deleted")
     public Flux<PropertyDTO> getSoftDeletedProperties()
     {
         return propertyService.getSoftDeletedProperties();
     }
+
 
     @GetMapping("/non-deleted")
     public Flux<PropertyDTO> getNonSoftDeleteProperties()

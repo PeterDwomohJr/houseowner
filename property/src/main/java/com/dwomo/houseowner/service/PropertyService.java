@@ -12,6 +12,7 @@ import java.math.BigDecimal;
 public class PropertyService {
 
     private final String ACTIVE_STATUS = "ACTIVE";
+    private final String PENDING_STATUS = "PENDING";
     private final PropertyRepository propertyRepository;
 
 
@@ -43,6 +44,14 @@ public class PropertyService {
     {
         return propertyRepository.findAll().map(AppUtils::entityToDto)
                 .filter(property -> property.getStatus().equals(ACTIVE_STATUS));
+    }
+
+
+
+    public Flux<PropertyDTO> getPendingProperties()
+    {
+        return propertyRepository.findAll().map(AppUtils::entityToDto)
+                .filter(property -> property.getStatus().equals(PENDING_STATUS));
     }
 
 

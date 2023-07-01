@@ -16,7 +16,7 @@ spec:
         app: property-mongodb
     spec:
       containers:
-        - name: mongo
+        - name: property-mongo
           image: mongo:4.4
           ports:
             - containerPort: 27017

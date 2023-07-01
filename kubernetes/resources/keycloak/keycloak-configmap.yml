@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: keycloak-config
+data:
+  KEYCLOAK_REALM: houseowner
+  KEYCLOAK_RESOURCE: edge
+  KEYCLOAK_AUTH_SERVER_URI: keycloak-service
+  ports:
+    - "9092:9092" 

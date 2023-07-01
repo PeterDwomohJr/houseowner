@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: edge-mongodb
+  labels:
+    app: edge-mongodb
+spec:
+  replicas: 3
+  serviceName: edge-mongodb-service
+  selector:
+    matchLabels:
+      app: edge-mongodb
+  template:
+    metadata:
+      labels:
+        app: edge-mongodb
+    spec:
+      containers:
+        - name: edge-mongo
+          image: mongo:4.4
+          ports:
+            - containerPort: 27017
+          resources:
+            limits:
+              cpu: "1"
+              memory: "200Mi"
+            requests:
+              cpu: "500m"
+              memory: "100Mi"
+          volumeMounts:
+            - name: edge-pvc
+              mountPath: /data/db
+            - name: edge-pvc
+              mountPath: /etc/mongo
+              readOnly: true
+          env:
+            - name: MONGO_INIT_ROOT_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: property-mongodb-secret
+                  key: username
+            - name: MONGO_INIT_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: edge-mongodb-secret
+                  key: password
+      volumes:
+        - name: edge-pvc
+          configMap:
+            name: edge-mongodb-configmap
+  volumeClaimTemplates:
+    - metadata:
+        name: edge-pvc
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 100Mi

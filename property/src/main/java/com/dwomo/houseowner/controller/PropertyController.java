@@ -49,6 +49,14 @@ public class PropertyController {
     }
 
 
+
+    @GetMapping("/non-delete")
+    public Flux<PropertyDTO> getNonDeleteProperties()
+    {
+        return propertyService.getNonDeletedProperties();
+    }
+
+
     @GetMapping("/range")
     public Flux<PropertyDTO> getPropertiesBetweenRange(@RequestParam BigDecimal min, @RequestParam BigDecimal max)
     {
@@ -75,6 +83,14 @@ public class PropertyController {
     public Mono<Void> deleteProperty(@PathVariable String id)
     {
         return propertyService.deleteProperty(id);
+    }
+
+
+
+    @DeleteMapping("/{id}/soft")
+    public Mono<Void> softDeleteProperty(@PathVariable String id)
+    {
+        return propertyService.softDeleteProperty(id);
     }
 
 

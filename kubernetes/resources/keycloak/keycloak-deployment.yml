@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: property
+  name: keycloak
 spec:
-  replicas: 4
+  replicas: 3
   selector:
     matchLabels:
-      app: property
+      app: keycloak
   template:
     metadata:
       labels:
-        app: property
+        app: keycloak
     spec:
       containers:
-        - name: property
-          image: docker.io/theblackengineer/property:0.0.0
+        - name: keycloak
+          image: quay.io/keycloak/keycloak:19.0.1
           ports:
-            - containerPort: 9090
+            - containerPort: 9092
           resources:
             limits:
               cpu: "1"
@@ -26,8 +26,7 @@ spec:
               memory: "100Mi"
           envFrom:
             - configMapRef:
-                name: property-configmap
-
+                name: keycloak-config
 
 
 

@@ -46,6 +46,14 @@ public class PropertyService {
     }
 
 
+
+    public Flux<PropertyDTO> getNonDeletedProperties()
+    {
+        return propertyRepository.findAll().map(AppUtils::entityToDto)
+                .filter(property -> !property.isDeleted());
+    }
+
+
     public Flux<PropertyDTO> getPropertiesBetweenPriceRange(BigDecimal min, BigDecimal max)
     {
         return propertyRepository.findAll().map(AppUtils::entityToDto)
@@ -78,10 +86,21 @@ public class PropertyService {
     }
 
 
+
+    public Mono<Void> softDeleteProperty(String id)
+    {
+        return propertyRepository.findById(id)
+                .doOnNext(property -> property.setDeleted(true))
+                .flatMap(propertyRepository::save)
+                .map(AppUtils::entityToDto).then();
+    }
+
+
     public Mono<Void> deleteAllProperties()
     {
         return propertyRepository.deleteAll();
     }
+
 
 
     public Mono<PropertyDTO> setPropertyStatus(String id, String status)

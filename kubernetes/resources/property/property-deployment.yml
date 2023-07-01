@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: property
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: property
+  template:
+    metadata:
+      labels:
+        app: property
+    spec:
+      containers:
+        - name: property
+          image: docker.io/theblackengineer/property:0.0.0
+          ports:
+            - containerPort: 9090
+          resources:
+            limits:
+              cpu: "1"
+              memory: "200Mi"
+            requests:
+              cpu: "500m"
+              memory: "100Mi"
+          envFrom:
+            - configMapRef:
+                name: property-config
+
+
+
+

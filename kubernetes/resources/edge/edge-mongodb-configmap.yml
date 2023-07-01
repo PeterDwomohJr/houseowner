@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: edge-mongodb-config
+data:
+  host: edge-mongodb-service
+  port: "27017"
+  database: EdgeDatabase
+  

@@ -7,13 +7,15 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="property" />
-        <module name="edge" />
+        <module name="property (2)" />
+        <module name="property (1)" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="edge" target="1.6" />
       <module name="houseowner" target="1.8" />
       <module name="mutualbrothers" target="1.8" />
+      <module name="property" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
@@ -22,6 +24,8 @@
       <module name="houseowner" options="-parameters" />
       <module name="mutualbrothers" options="-parameters" />
       <module name="property" options="-parameters" />
+      <module name="property (1)" options="-parameters" />
+      <module name="property (2)" options="-parameters" />
     </option>
   </component>
 </project>

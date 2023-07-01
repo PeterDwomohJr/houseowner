@@ -57,16 +57,16 @@ public class PropertyController {
 
 
     @PostMapping
-    public Mono<PropertyDTO> saveProperty(@RequestBody Mono<PropertyDTO> productDtoMono)
+    public Mono<PropertyDTO> saveProperty(@RequestBody Mono<PropertyDTO> propertyDTOMono)
     {
-        return propertyService.saveProperty(productDtoMono);
+        return propertyService.saveProperty(propertyDTOMono);
     }
 
 
     @PutMapping("/{id}")
-    public Mono<PropertyDTO> updateProperty(@PathVariable String id, @RequestBody Mono<PropertyDTO> productDtoMono)
+    public Mono<PropertyDTO> updateProperty(@PathVariable String id, @RequestBody Mono<PropertyDTO> propertyDTOMono)
     {
-        return propertyService.updateProperty(id, productDtoMono);
+        return propertyService.updateProperty(id, propertyDTOMono);
     }
 
 

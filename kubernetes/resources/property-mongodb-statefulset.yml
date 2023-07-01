@@ -33,10 +33,6 @@ spec:
             - name: property-pvc
               mountPath: /etc/mongo
               readOnly: true
-          command:
-            - mongod
-            - "--config"
-            - "/etc/mongo/mongod.conf"
           env:
             - name: MONGO_INIT_ROOT_USERNAME
               valueFrom:

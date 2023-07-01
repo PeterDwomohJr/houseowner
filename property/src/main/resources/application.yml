@@ -1,21 +1,10 @@
-server:
-  port: 9090
-  netty:
-    connection-timeout: 3000
-  error:
-    whitelabel:
-      enabled: false
-
-
 spring:
   data:
     mongodb:
-      host: ${host}
-      database: ${database}
+      uri: mongodb://localhost:27017/PropertyDatabase
 
 
 
-
-
-
-
+server:
+  port: 9090
+  shutdown: graceful

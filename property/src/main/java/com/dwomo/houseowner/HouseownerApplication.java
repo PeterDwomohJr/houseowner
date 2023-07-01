@@ -1,13 +1,13 @@
-package com.houseowner.property;
+package com.dwomo.houseowner;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class PropertyApplication {
+public class HouseownerApplication {
 
 	public static void main(String[] args)
 	{
-		SpringApplication.run(PropertyApplication.class, args);
+		SpringApplication.run(HouseownerApplication.class, args);
 	}
 }

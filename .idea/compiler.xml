@@ -11,10 +11,16 @@
         <module name="edge" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="houseowner" target="1.8" />
+      <module name="mutualbrothers" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="edge" options="-parameters" />
+      <module name="houseowner" options="-parameters" />
+      <module name="mutualbrothers" options="-parameters" />
       <module name="property" options="-parameters" />
     </option>
   </component>

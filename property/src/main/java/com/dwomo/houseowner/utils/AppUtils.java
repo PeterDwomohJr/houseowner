@@ -1,7 +1,7 @@
-package com.houseowner.property.utilities;
+package com.dwomo.houseowner.utils;
 
-import com.houseowner.property.DTOs.PropertyDTO;
-import com.houseowner.property.aggregates.entities.Property;
+import com.dwomo.houseowner.aggregate.entities.Property;
+import com.dwomo.houseowner.dto.PropertyDTO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 public class AppUtils {
 
 
-    public static PropertyDTO entityToDTO(Property property) {
+    public static PropertyDTO entityToDto(Property property) {
 
         PropertyDTO propertyDTO = new PropertyDTO();
 

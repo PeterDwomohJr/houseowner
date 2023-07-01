@@ -8,4 +8,4 @@ WORKDIR /app
 COPY target/property-0.0.0-SNAPSHOT.jar /app/property-0.0.0-SNAPSHOT.jar
   
 # Set the command to run the Spring Boot application
-CMD ["java", "-jar", "/app/my-app.jar"]
+CMD ["java", "-jar", "/app/property-0.0.0-SNAPSHOT.jar"]

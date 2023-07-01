@@ -1,4 +1,4 @@
-package com.houseowner.property.DTOs;
+package com.dwomo.houseowner.aggregate.valueObject;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 @NoArgsConstructor
 @Component
-public class UpdateMessageDTO {
-    private String messageId;
-    private String propertyId;
-    private String newContent;
+public class LandArea {
+
+    private double length;
+    private double width;
 }

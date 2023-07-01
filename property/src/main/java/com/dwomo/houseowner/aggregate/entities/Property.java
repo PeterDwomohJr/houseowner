@@ -1,9 +1,13 @@
-package com.houseowner.property.DTOs;
+package com.dwomo.houseowner.aggregate.entities;
 
+import com.dwomo.houseowner.aggregate.valueObject.LandArea;
+import com.dwomo.houseowner.aggregate.valueObject.Message;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -12,26 +16,22 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Document(collection = "properties")
 @Component
-public class PropertyDTO {
+public class Property {
 
+    @Id
     private String id;
-    private String type;
     private String landTitleNumber;
-    private double landSize;
     private BigDecimal price;
+    private LandArea landArea;
+    private double numberOfPlots;
+    private String landType;
     private String location;
-    private String pictures;
-    private String messages;
+    private List<Message> messages;
     private String status;
-    private String owner;
     private boolean deleted;
-    private LocalDateTime dateCreated;
-    private LocalDateTime dateModified;
     @CreatedBy
     private String createdBy;
-    private final double DEFAULT_DOUBLE_VALUE = 0.0;
-    private final String DEFAULT_PROPERTY_STATUS = "PENDING";
-    private final String ACTIVE_PROPERTY_VALUE = "ACTIVE";
-
+    private LocalDateTime dateCreated = LocalDateTime.now();
 }

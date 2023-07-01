@@ -12,8 +12,8 @@ import java.math.BigDecimal;
 public class PropertyService {
 
     private final String ACTIVE_STATUS = "ACTIVE";
-
     private final PropertyRepository propertyRepository;
+
 
     public PropertyService(PropertyRepository propertyRepository)
     {

@@ -31,7 +31,7 @@ public class PropertyController {
     @GetMapping({"/{id}"})
     public Mono<PropertyDTO> getProperty(@PathVariable String id)
     {
-        return propertyService.getProperties(id);
+        return propertyService.getProperty(id);
     }
 
 

@@ -27,7 +27,7 @@ public class PropertyService {
     }
 
 
-    public Mono<PropertyDTO> getProperties(String id)
+    public Mono<PropertyDTO> getProperty(String id)
     {
         return propertyRepository.findById(id).map(AppUtils::entityToDto);
     }

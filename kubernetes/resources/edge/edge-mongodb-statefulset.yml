@@ -47,7 +47,7 @@ spec:
       volumes:
         - name: edge-pvc
           configMap:
-            name: edge-mongodb-configmap
+            name: edge-mongodb-config
   volumeClaimTemplates:
     - metadata:
         name: edge-pvc

@@ -48,6 +48,7 @@ public class PropertyController {
         return propertyService.getActiveProperties();
     }
 
+
     @GetMapping("/range")
     public Flux<PropertyDTO> getPropertiesBetweenRange(@RequestParam BigDecimal min, @RequestParam BigDecimal max)
     {

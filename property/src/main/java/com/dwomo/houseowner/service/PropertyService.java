@@ -8,6 +8,15 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import java.math.BigDecimal;
 
+
+/**
+ * This represents the property service that implements the functionalities of a property (land and house)
+ * Date: 1st July 2023
+ *
+ * @author Peter Dwomo Jr.
+ * @version 0.0.0
+ * @since 0.0.0
+ */
 @Service
 public class PropertyService {
 
@@ -16,6 +25,9 @@ public class PropertyService {
     private final PropertyRepository propertyRepository;
 
 
+    /**
+     *
+     */
     public PropertyService(PropertyRepository propertyRepository)
     {
         this.propertyRepository = propertyRepository;

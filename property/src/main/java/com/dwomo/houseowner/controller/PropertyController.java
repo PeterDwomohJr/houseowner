@@ -84,7 +84,7 @@ public class PropertyController {
     }
 
 
-    @PatchMapping("/{id}/status")
+    @PatchMapping("/{id}")
     public Mono<PropertyDTO> setPropertyStatus(@PathVariable String id, @RequestParam String status)
     {
         return propertyService.setPropertyStatus(id, status);

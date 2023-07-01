@@ -54,18 +54,18 @@ public class PropertyService {
 
 
 
-    public Mono<PropertyDTO> saveProperty(Mono<PropertyDTO> productDtoMono)
+    public Mono<PropertyDTO> saveProperty(Mono<PropertyDTO> propertyDTOMono)
     {
-        return productDtoMono.map(AppUtils::dtoToEntity)
+        return propertyDTOMono.map(AppUtils::dtoToEntity)
                 .flatMap(propertyRepository::insert)
                 .map(AppUtils::entityToDto);
     }
 
 
-    public Mono<PropertyDTO> updateProperty(String id, Mono<PropertyDTO> productDtoMono)
+    public Mono<PropertyDTO> updateProperty(String id, Mono<PropertyDTO> propertyDTOMono)
     {
         return propertyRepository.findById(id)
-                .flatMap(property -> productDtoMono.map(AppUtils::dtoToEntity))
+                .flatMap(property -> propertyDTOMono.map(AppUtils::dtoToEntity))
                 .doOnNext(propertyEntity -> propertyEntity.setId(id))
                 .flatMap(propertyRepository::save)
                 .map(AppUtils::entityToDto);

@@ -65,8 +65,8 @@ public class PropertyService {
     public Mono<PropertyDTO> updateProperty(String id, Mono<PropertyDTO> productDtoMono)
     {
         return propertyRepository.findById(id)
-                .flatMap(product -> productDtoMono.map(AppUtils::dtoToEntity))
-                .doOnNext(productEntity -> productEntity.setId(id))
+                .flatMap(property -> productDtoMono.map(AppUtils::dtoToEntity))
+                .doOnNext(propertyEntity -> propertyEntity.setId(id))
                 .flatMap(propertyRepository::save)
                 .map(AppUtils::entityToDto);
     }

@@ -47,7 +47,15 @@ public class PropertyService {
 
 
 
-    public Flux<PropertyDTO> getNonDeletedProperties()
+    public Flux<PropertyDTO> getSoftDeletedProperties()
+    {
+        return propertyRepository.findAll().map(AppUtils::entityToDto)
+                .filter(PropertyDTO::isDeleted);
+    }
+
+
+
+    public Flux<PropertyDTO> getNonSoftDeletedProperties()
     {
         return propertyRepository.findAll().map(AppUtils::entityToDto)
                 .filter(property -> !property.isDeleted());

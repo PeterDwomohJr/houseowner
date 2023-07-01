@@ -50,11 +50,18 @@ public class PropertyController {
 
 
 
-    @GetMapping("/non-delete")
-    public Flux<PropertyDTO> getNonDeleteProperties()
+    @GetMapping("/soft-deleted")
+    public Flux<PropertyDTO> getSoftDeletedProperties()
     {
-        return propertyService.getNonDeletedProperties();
+        return propertyService.getSoftDeletedProperties();
     }
+
+    @GetMapping("/non-deleted")
+    public Flux<PropertyDTO> getNonSoftDeleteProperties()
+    {
+        return propertyService.getNonSoftDeletedProperties();
+    }
+
 
 
     @GetMapping("/range")

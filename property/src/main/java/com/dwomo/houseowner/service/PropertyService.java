@@ -21,13 +21,13 @@ public class PropertyService {
     }
 
 
-    public Flux<PropertyDTO> getProperty()
+    public Flux<PropertyDTO> getProperties()
     {
         return propertyRepository.findAll().map(AppUtils::entityToDto);
     }
 
 
-    public Mono<PropertyDTO> getProperty(String id)
+    public Mono<PropertyDTO> getProperties(String id)
     {
         return propertyRepository.findById(id).map(AppUtils::entityToDto);
     }

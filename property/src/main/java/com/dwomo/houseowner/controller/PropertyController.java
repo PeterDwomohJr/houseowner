@@ -24,14 +24,14 @@ public class PropertyController {
     @GetMapping
     public Flux<PropertyDTO> getProperties()
     {
-        return propertyService.getProperty();
+        return propertyService.getProperties();
     }
 
 
     @GetMapping({"/{id}"})
     public Mono<PropertyDTO> getProperty(@PathVariable String id)
     {
-        return propertyService.getProperty(id);
+        return propertyService.getProperties(id);
     }
 
 

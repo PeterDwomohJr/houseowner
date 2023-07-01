@@ -84,10 +84,10 @@ public class PropertyService {
     }
 
 
-    public Mono<PropertyDTO> setPropertyStatusActive(String id)
+    public Mono<PropertyDTO> setPropertyStatus(String id, String status)
     {
         return propertyRepository.findById(id)
-                .doOnNext(property -> property.setStatus(ACTIVE_STATUS))
+                .doOnNext(property -> property.setStatus(status))
                 .flatMap(propertyRepository::save)
                 .map(AppUtils::entityToDto);
     }

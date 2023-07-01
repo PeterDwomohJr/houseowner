@@ -5,7 +5,6 @@ import com.dwomo.houseowner.service.PropertyService;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
 import java.math.BigDecimal;
 
 @RestController
@@ -13,6 +12,7 @@ import java.math.BigDecimal;
 public class PropertyController {
 
     private final PropertyService propertyService;
+
 
     public PropertyController(PropertyService propertyService)
     {

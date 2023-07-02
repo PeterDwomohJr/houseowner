@@ -1,6 +1,6 @@
 package com.houseowner.edge.controllers;
 
-import com.houseowner.edge.aggregates.entities.UserRecord;
+import com.houseowner.edge.dto.UserDTO;
 import com.houseowner.edge.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -14,7 +14,7 @@ public class UserController {
     @Autowired
     private UserService userService;
     @GetMapping("/")
-    public Mono<UserRecord> getHomePage(@AuthenticationPrincipal OidcUser oidcUser)
+    public Mono<UserDTO> getHomePage(@AuthenticationPrincipal OidcUser oidcUser)
     {
         return userService.getUser(oidcUser);
     }

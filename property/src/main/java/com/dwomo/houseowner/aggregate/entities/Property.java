@@ -2,6 +2,7 @@ package com.dwomo.houseowner.aggregate.entities;
 
 import com.dwomo.houseowner.aggregate.valueObject.LandArea;
 import com.dwomo.houseowner.aggregate.valueObject.Message;
+import com.dwomo.houseowner.aggregate.valueObject.Picture;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,6 +30,7 @@ public class Property {
     private String landType;
     private String location;
     private List<Message> messages;
+    private List<Picture> pictures;
     private String status;
     private boolean deleted;
     @CreatedBy

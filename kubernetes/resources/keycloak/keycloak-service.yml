@@ -7,6 +7,6 @@ spec:
     app: keycloak
   ports:
     - protocol: TCP
-      port: 82
+      port: 9092
       targetPort: 9092
   type: ClusterIP

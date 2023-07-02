@@ -7,6 +7,6 @@ spec:
     app: edge
   ports:
     - protocol: TCP
-      port: 81
-      targetPort: 9090
+      port: 9091
+      targetPort: 9091
   type: ClusterIP

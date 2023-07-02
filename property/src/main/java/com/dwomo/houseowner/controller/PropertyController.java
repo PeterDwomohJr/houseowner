@@ -24,6 +24,7 @@ public class PropertyController {
     @GetMapping
     public Flux<PropertyDTO> getProperties()
     {
+        // This will return all the properties in the property repository, both active and pending
         return propertyService.getProperties();
     }
 
@@ -31,6 +32,7 @@ public class PropertyController {
     @GetMapping({"/{id}"})
     public Mono<PropertyDTO> getProperty(@PathVariable String id)
     {
+        // This will return a single property that is associated with the included id
         return propertyService.getProperty(id);
     }
 
@@ -38,6 +40,7 @@ public class PropertyController {
     @GetMapping("/count")
     public Mono<Long> getPropertyCount()
     {
+        // This will return the number of properties that have been created and are found in the property repository
         return propertyService.getPropertyCount();
     }
 
@@ -45,6 +48,7 @@ public class PropertyController {
     @GetMapping("/active")
     public Flux<PropertyDTO> getActiveProperties()
     {
+        // Active properties are properties that have been verified to be genuine
         return propertyService.getActiveProperties();
     }
 
@@ -53,6 +57,7 @@ public class PropertyController {
     @GetMapping("/pending")
     public Flux<PropertyDTO> getPendingProperties()
     {
+        // Pending properties are ones that have not been verified to be genuine
         return propertyService.getPendingProperties();
     }
 
@@ -61,6 +66,7 @@ public class PropertyController {
     @GetMapping("/soft-deleted")
     public Flux<PropertyDTO> getSoftDeletedProperties()
     {
+        // Soft deletion marks the property as deleted but do not remove it from the property repository
         return propertyService.getSoftDeletedProperties();
     }
 
@@ -68,6 +74,7 @@ public class PropertyController {
     @GetMapping("/non-deleted")
     public Flux<PropertyDTO> getNonSoftDeleteProperties()
     {
+        // This returns all the properties have not been marked as deleted
         return propertyService.getNonSoftDeletedProperties();
     }
 
@@ -77,49 +84,5 @@ public class PropertyController {
     public Flux<PropertyDTO> getPropertiesBetweenRange(@RequestParam BigDecimal min, @RequestParam BigDecimal max)
     {
         return propertyService.getPropertiesBetweenPriceRange(min, max);
-    }
-
-
-
-    @PostMapping
-    public Mono<PropertyDTO> saveProperty(@RequestBody Mono<PropertyDTO> propertyDTOMono)
-    {
-        return propertyService.saveProperty(propertyDTOMono);
-    }
-
-
-    @PutMapping("/{id}")
-    public Mono<PropertyDTO> updateProperty(@PathVariable String id, @RequestBody Mono<PropertyDTO> propertyDTOMono)
-    {
-        return propertyService.updateProperty(id, propertyDTOMono);
-    }
-
-
-    @DeleteMapping("/{id}")
-    public Mono<Void> deleteProperty(@PathVariable String id)
-    {
-        return propertyService.deleteProperty(id);
-    }
-
-
-
-    @DeleteMapping("/{id}/soft")
-    public Mono<Void> softDeleteProperty(@PathVariable String id)
-    {
-        return propertyService.softDeleteProperty(id);
-    }
-
-
-    @DeleteMapping
-    public Mono<Void> deleteAllProperties()
-    {
-        return propertyService.deleteAllProperties();
-    }
-
-
-    @PatchMapping("/{id}")
-    public Mono<PropertyDTO> setPropertyStatus(@PathVariable String id, @RequestParam String status)
-    {
-        return propertyService.setPropertyStatus(id, status);
     }
 }

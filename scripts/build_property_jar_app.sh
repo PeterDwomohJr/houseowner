@@ -1,7 +1,11 @@
+#Define the Shebang
 #!/bin/bash
 
+# Set the path of the Property directory variable
+PROJECT_DIRECTORY="/home/kwadwo/houseowner/property"
+
 # Change to the project directory
-cd /home/kwadwo/houseowner/property
+cd $PROJECT_DIRECTORY
 
 
 # Build the Spring Boot app with Maven and skip tests

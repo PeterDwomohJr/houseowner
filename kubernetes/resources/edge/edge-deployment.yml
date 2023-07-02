@@ -28,13 +28,10 @@ spec:
           volumeMounts:
             - name: edge-config-volume
               mountPath: /data/edge-config
-
             - name: keycloak-config-volume
               mountPath: /data/keycloak-config
-
             - name: edge-secret-volume
               mountPath: /secret/edge-secret
-
             - name: keycloak-secret-volume
               mountPath: /secret/keycloak-secret
 
@@ -42,19 +39,15 @@ spec:
         - name: edge-config-volume
           configMap:
             name: edge-config
-
         - name: edge-config-volume
           configMap:
             name: keycloak-config
-
         - name: edge-secret-volume
           secret:
-            secretName: edge-secret
-            
+            secretName: edge-secret        
         - name: keycloak-secret-volume
           secret:
-            secretName: keycloak-secret-volume
-
+            secretName: keycloak-secret
               
 
 

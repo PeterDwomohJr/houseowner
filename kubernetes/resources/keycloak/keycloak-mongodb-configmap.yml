@@ -5,4 +5,4 @@ metadata:
 data:
   host: keycloak-mongodb-service
   port: "27017"
-  database: keycloakdatabase
+  database: KeycloakDatabase

@@ -34,6 +34,6 @@ public class Property {
     private String status;
     private boolean deleted;
     @CreatedBy
-    private String createdBy;
+    private String createdAt;
     private LocalDateTime dateCreated = LocalDateTime.now();
 }

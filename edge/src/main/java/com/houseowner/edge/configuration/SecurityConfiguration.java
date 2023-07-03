@@ -28,7 +28,9 @@ public class SecurityConfiguration {
     {
         return httpSecurity
                 .authorizeExchange(exchange ->
-                         exchange.pathMatchers(HttpMethod.GET, "/properties").permitAll()
+                         exchange.pathMatchers(HttpMethod.GET, "/property/all").permitAll()
+                                 .pathMatchers(HttpMethod.GET, "/login/**").permitAll()
+                                 .pathMatchers(HttpMethod.GET, "/error").permitAll()
                                  .pathMatchers("/").permitAll()
                                  .anyExchange().authenticated())
                                  .exceptionHandling(exceptionHandling -> exceptionHandling.authenticationEntryPoint(new HttpStatusServerEntryPoint(HttpStatus.UNAUTHORIZED)))

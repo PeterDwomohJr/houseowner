@@ -20,6 +20,7 @@ public class PropertyWriteController {
 
     public PropertyWriteController(PropertyService propertyService)
     {
+        // uses the constructor to inject the PropertyService
         this.propertyService = propertyService;
     }
 

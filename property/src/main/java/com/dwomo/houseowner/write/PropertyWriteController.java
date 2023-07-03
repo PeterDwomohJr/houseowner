@@ -11,7 +11,7 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 
 @RestController
-@RequestMapping("/property")
+@RequestMapping("v0/property")
 public class PropertyWriteController {
 
     private final PropertyService propertyService;

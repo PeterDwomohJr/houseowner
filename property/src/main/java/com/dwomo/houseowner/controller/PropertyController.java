@@ -8,7 +8,7 @@ import reactor.core.publisher.Mono;
 import java.math.BigDecimal;
 
 @RestController
-@RequestMapping("/property")
+@RequestMapping("v0/property")
 public class PropertyController {
 
     private final PropertyService propertyService;

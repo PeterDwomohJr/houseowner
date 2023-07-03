@@ -6,7 +6,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AppUtils {
+public class PropertyUtils {
 
 
     public static PropertyDTO entityToDto(Property property) {

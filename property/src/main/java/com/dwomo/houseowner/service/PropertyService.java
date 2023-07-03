@@ -1,12 +1,14 @@
 package com.dwomo.houseowner.service;
 
+import com.dwomo.houseowner.aggregate.valueObject.Message;
 import com.dwomo.houseowner.dto.PropertyDTO;
 import com.dwomo.houseowner.repository.PropertyRepository;
-import com.dwomo.houseowner.utils.AppUtils;
+import com.dwomo.houseowner.utils.PropertyUtils;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import java.math.BigDecimal;
+import java.util.List;
 
 
 /**
@@ -29,20 +31,21 @@ public class PropertyService {
      *
      */
     public PropertyService(PropertyRepository propertyRepository)
-    {
+    {   // perform constructor injection
         this.propertyRepository = propertyRepository;
     }
 
 
     public Flux<PropertyDTO> getProperties()
     {
-        return propertyRepository.findAll().map(AppUtils::entityToDto);
+        // returns all the properties in the property collection
+        return propertyRepository.findAll().map(PropertyUtils::entityToDto);
     }
 
 
     public Mono<PropertyDTO> getProperty(String id)
     {
-        return propertyRepository.findById(id).map(AppUtils::entityToDto);
+        return propertyRepository.findById(id).map(PropertyUtils::entityToDto);
     }
 
 
@@ -54,7 +57,7 @@ public class PropertyService {
 
     public Flux<PropertyDTO> getActiveProperties()
     {
-        return propertyRepository.findAll().map(AppUtils::entityToDto)
+        return propertyRepository.findAll().map(PropertyUtils::entityToDto)
                 .filter(property -> property.getStatus().equals(ACTIVE_STATUS));
     }
 
@@ -62,7 +65,7 @@ public class PropertyService {
 
     public Flux<PropertyDTO> getPendingProperties()
     {
-        return propertyRepository.findAll().map(AppUtils::entityToDto)
+        return propertyRepository.findAll().map(PropertyUtils::entityToDto)
                 .filter(property -> property.getStatus().equals(PENDING_STATUS));
     }
 
@@ -70,7 +73,7 @@ public class PropertyService {
 
     public Flux<PropertyDTO> getSoftDeletedProperties()
     {
-        return propertyRepository.findAll().map(AppUtils::entityToDto)
+        return propertyRepository.findAll().map(PropertyUtils::entityToDto)
                 .filter(PropertyDTO::isDeleted);
     }
 
@@ -78,14 +81,14 @@ public class PropertyService {
 
     public Flux<PropertyDTO> getNonSoftDeletedProperties()
     {
-        return propertyRepository.findAll().map(AppUtils::entityToDto)
+        return propertyRepository.findAll().map(PropertyUtils::entityToDto)
                 .filter(property -> !property.isDeleted());
     }
 
 
     public Flux<PropertyDTO> getPropertiesBetweenPriceRange(BigDecimal min, BigDecimal max)
     {
-        return propertyRepository.findAll().map(AppUtils::entityToDto)
+        return propertyRepository.findAll().map(PropertyUtils::entityToDto)
         .filter(property -> property.getPrice().compareTo(min) >= 0 && property.getPrice().compareTo(max) <= 0);
     }
 
@@ -93,19 +96,19 @@ public class PropertyService {
 
     public Mono<PropertyDTO> saveProperty(Mono<PropertyDTO> propertyDTOMono)
     {
-        return propertyDTOMono.map(AppUtils::dtoToEntity)
+        return propertyDTOMono.map(PropertyUtils::dtoToEntity)
                 .flatMap(propertyRepository::insert)
-                .map(AppUtils::entityToDto);
+                .map(PropertyUtils::entityToDto);
     }
 
 
     public Mono<PropertyDTO> updateProperty(String id, Mono<PropertyDTO> propertyDTOMono)
     {
         return propertyRepository.findById(id)
-                .flatMap(property -> propertyDTOMono.map(AppUtils::dtoToEntity))
+                .flatMap(property -> propertyDTOMono.map(PropertyUtils::dtoToEntity))
                 .doOnNext(propertyEntity -> propertyEntity.setId(id))
                 .flatMap(propertyRepository::save)
-                .map(AppUtils::entityToDto);
+                .map(PropertyUtils::entityToDto);
     }
 
 
@@ -121,12 +124,13 @@ public class PropertyService {
         return propertyRepository.findById(id)
                 .doOnNext(property -> property.setDeleted(true))
                 .flatMap(propertyRepository::save)
-                .map(AppUtils::entityToDto).then();
+                .map(PropertyUtils::entityToDto).then();
     }
 
 
     public Mono<Void> deleteAllProperties()
     {
+        // deletes all the properties that have been saved in the property collection
         return propertyRepository.deleteAll();
     }
 
@@ -137,7 +141,17 @@ public class PropertyService {
         return propertyRepository.findById(id)
                 .doOnNext(property -> property.setStatus(status))
                 .flatMap(propertyRepository::save)
-                .map(AppUtils::entityToDto);
+                .map(PropertyUtils::entityToDto);
+    }
+
+
+
+    public Mono<PropertyDTO> createMessage(String propertyId, List<Message> messages)
+    {
+        return propertyRepository.findById(propertyId)
+                .doOnNext(property -> property.setMessages(messages))
+                .flatMap(propertyRepository::save)
+                .map(PropertyUtils::entityToDto);
     }
 }
 

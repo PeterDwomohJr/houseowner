@@ -7,7 +7,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AppUtils {
+public class UserUtils {
 
 
     public static UserDTO entityToDTO(User user)

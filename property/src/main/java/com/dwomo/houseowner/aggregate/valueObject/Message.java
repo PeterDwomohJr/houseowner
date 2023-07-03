@@ -15,9 +15,6 @@ import java.time.LocalDateTime;
 @Component
 public class Message {
 
-    //@Pattern(
-            //regexp = "^(?!.*(?:\\b\\d{10}\\b|(?i)at\\b|@[a-zA-Z0-9._-]+\\.[a-zA-Z]{2,4}\\b|\\b(?:facebook|twitter|instagram)\\.com\\b)).*$",
-            //message = "You cannot share any personal communication information.")
     private String message;
     @CreatedBy
     private String createdBy;

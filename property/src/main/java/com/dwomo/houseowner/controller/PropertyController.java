@@ -21,7 +21,7 @@ public class PropertyController {
 
 
 
-    @GetMapping
+    @GetMapping("/all")
     public Flux<PropertyDTO> getProperties()
     {
         // This will return all the properties in the property repository, both active and pending

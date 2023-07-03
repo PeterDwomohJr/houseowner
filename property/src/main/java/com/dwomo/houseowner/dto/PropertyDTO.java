@@ -41,7 +41,7 @@ public class PropertyDTO {
     private String propertyType;
     @NotNull(message = "The location field cannot be empty")
     private Location location;
-    @NoPersonallyIdentifiableInformation
+    @NoPersonallyIdentifiableInformation()
     private List<Message> messages;
     private List<Picture> pictures;
     @Pattern(regexp = "^(PENDING|ACTIVE)$", message = "You must enter a valid status")

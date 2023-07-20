@@ -7,8 +7,6 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.math.BigDecimal;
-
 @Service
 public class UserService {
 
@@ -26,6 +24,7 @@ public class UserService {
 
     public Flux<UserDTO> getUsers()
     {
+        // returns all the users in the repository
         return userRepository.findAll().map(UserUtils::entityToDTO);
     }
 
@@ -33,7 +32,16 @@ public class UserService {
 
     public Mono<UserDTO> getUser(String id)
     {
+        // returns the user with the given id
         return userRepository.findById(id).map(UserUtils::entityToDTO);
+    }
+
+
+
+    public Mono<UserDTO> getUserByPhoneNumber(String phoneNumber)
+    {
+        // returns the user with the given phone number
+        return userRepository.findByPhoneNumber(phoneNumber).map(UserUtils::entityToDTO);
     }
 
 
@@ -41,12 +49,14 @@ public class UserService {
 
     public Mono<Long> getUserCount()
     {
+        // returns the number of users in the repository
         return userRepository.count();
     }
 
 
     public Flux<UserDTO> getActiveUsers()
     {
+        // returns all the active users in the repository
         return userRepository.findAll().map(UserUtils::entityToDTO)
                 .filter(property -> property.getStatus().equals(ACTIVE_STATUS));
     }
@@ -55,6 +65,7 @@ public class UserService {
 
     public Flux<UserDTO> getPendingUsers()
     {
+        // returns all the pending users in the repository
         return userRepository.findAll().map(UserUtils::entityToDTO)
                 .filter(property -> property.getStatus().equals(PENDING_STATUS));
     }
@@ -63,6 +74,7 @@ public class UserService {
 
     public Flux<UserDTO> getSoftDeletedUsers()
     {
+        // returns all the soft deleted users in the repository
         return userRepository.findAll().map(UserUtils::entityToDTO)
                 .filter(UserDTO::isDeleted);
     }
@@ -71,6 +83,7 @@ public class UserService {
 
     public Flux<UserDTO> getNonSoftDeletedUsers()
     {
+        // returns all the non-soft deleted users in the repository
         return userRepository.findAll().map(UserUtils::entityToDTO)
                 .filter(property -> !property.isDeleted());
     }
@@ -79,6 +92,7 @@ public class UserService {
 
     public Mono<UserDTO> saveUser(Mono<UserDTO> propertyDTOMono)
     {
+        // returns the saved user
         return propertyDTOMono.map(UserUtils::dtoToEntity)
                 .flatMap(userRepository::insert)
                 .map(UserUtils::entityToDTO);
@@ -87,6 +101,7 @@ public class UserService {
 
     public Mono<UserDTO> updateUser(String id, Mono<UserDTO> propertyDTOMono)
     {
+        // returns the updated user
         return userRepository.findById(id)
                 .flatMap(property -> propertyDTOMono.map(UserUtils::dtoToEntity))
                 .doOnNext(propertyEntity -> propertyEntity.setId(id))
@@ -97,6 +112,7 @@ public class UserService {
 
     public Mono<Void> deleteUser(String id)
     {
+        // deletes the user with the given id from the repository
         return userRepository.deleteById(id);
     }
 
@@ -104,6 +120,7 @@ public class UserService {
 
     public Mono<Void> softDeleteUser(String id)
     {
+        // deletes the user with the given id by marking the delete status as true
         return userRepository.findById(id)
                 .doOnNext(property -> property.setDeleted(true))
                 .flatMap(userRepository::save)
@@ -113,6 +130,7 @@ public class UserService {
 
     public Mono<Void> deleteAllUsers()
     {
+        // deletes all users
         return userRepository.deleteAll();
     }
 
@@ -120,6 +138,7 @@ public class UserService {
 
     public Mono<UserDTO> setUserStatus(String id, String status)
     {
+        // sets the status of the user
         return userRepository.findById(id)
                 .doOnNext(property -> property.setStatus(status))
                 .flatMap(userRepository::save)

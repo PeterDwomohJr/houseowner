@@ -1,4 +1,4 @@
-package com.houseowner.edge.aggregates.valueObjects;
+package com.houseowner.edge.aggregates.valueobjects;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

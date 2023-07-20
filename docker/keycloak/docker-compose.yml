@@ -12,4 +12,6 @@ services:
         KEYCLOAK_ADMIN: admin
         KEYCLOAK_ADMIN_PASSWORD: keycloakadmin
       ports:
-        - "8080:8080"
+        - 9092:8443
+        - 8888:8080
+    

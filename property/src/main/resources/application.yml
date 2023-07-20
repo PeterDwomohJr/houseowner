@@ -1,34 +1,71 @@
-# common environment configuration
 server:
   port: 9090
   shutdown: graceful
+  error:
+    include-message: always
+    ssl:
+      enabled: false
+
+  data:
+    mongo:
+      host: localhost
+      port: 27017
+      database: EdgeDatabase
+
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+
+
+scheme: http
+origins: http://localhost:8888
+keycloak-port: 8888
+keycloak-issuer: http://localhost:8888/realms/houseowner
 
 spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8888/realms/houseowner
+
   application:
-    name: PropertyApplication
+    name: Property-Service
 
-# development environment configuration
-  profile: dev
-  data:
-    mongo:
-      host: localhost
-      port: 27017
-      database: PropertyDatabase
 
-# staging environment configuration
+
+spring-addons:
+  issuers:
+    - uri: http://localhost:8888/realms/houseowner
+      username-json-path: $.preferred_username
+      claims:
+        - jsonPath: $.realm_access.roles
+        - jsonPath: $.resource_access.*.roles
+
+realm: houseowner
+keycloak:
+  server:
+    url: http://localhost:8888
+
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+    instance:
+    preferIpAddress: true
+
+
 ---
-  profile: staging
-  data:
-    mongo:
-      host: localhost
-      port: 27017
-      database: PropertyDatabase
+scheme: https
+keycloak-port: 9092
 
-# production environment configuration
----
-  profile: production
-  data:
-  mongo:
-    host: property-mongodb-service
-    port: 27017
-    database: PropertyDatabase
+server:
+  ssl:
+    enabled: true
+
+spring:
+  config:
+    activate:
+      on-profile: ssl

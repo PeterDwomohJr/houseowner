@@ -12,7 +12,6 @@ public @interface NoPersonallyIdentifiableInformation {
 
     String message() default "Personally Identifiable Information found within the message.";
 
-
     Class<?>[] groups() default {};
 
     Class<? extends Payload >[] payload() default {};

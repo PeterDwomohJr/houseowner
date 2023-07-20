@@ -1,4 +1,4 @@
-package com.houseowner.edge.aggregates.valueObjects;
+package com.houseowner.edge.dto;
 
 
 import lombok.AllArgsConstructor;
@@ -6,13 +6,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
 @Component
-public class Picture {
+public class OneTimePasswordResponseDTO {
 
-    private String frontPictureURL;
-    private String backPictureURI;
-    private String metadata;
+    private OTPStatus status;
+    private String message;
 }

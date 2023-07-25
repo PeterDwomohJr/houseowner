@@ -4,6 +4,7 @@ package com.dwomo.OTPData.controllers;
 import com.dwomo.OTPData.dto.OTPCreatedEventDTO;
 import com.dwomo.OTPData.events.handlers.OTPEventHandler;
 import com.dwomo.OTPData.services.OTPService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,6 +31,7 @@ public class OTPDataController {
 
 
     @GetMapping("/all")
+    @PreAuthorize("hasAuthority('admin')")
     public Flux<OTPCreatedEventDTO> getOTPs()
     {
         return otpService.getOTPs();
@@ -38,6 +40,7 @@ public class OTPDataController {
 
 
     @GetMapping("/receive")
+    @PreAuthorize("hasAuthority('user')")
     public void receiveOTP()
     {
         otpEventHandler.receiveOTP();
@@ -45,6 +48,7 @@ public class OTPDataController {
 
 
     @GetMapping("/count")
+    @PreAuthorize("hasAuthority('admin')")
     public Mono<Long> getOTPCount()
     {
         return otpService.getOTPCount();

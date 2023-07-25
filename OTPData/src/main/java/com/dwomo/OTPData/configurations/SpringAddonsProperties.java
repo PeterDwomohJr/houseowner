@@ -1,4 +1,4 @@
-package com.dwomo.houseowner.configuration;
+package com.dwomo.OTPData.configurations;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

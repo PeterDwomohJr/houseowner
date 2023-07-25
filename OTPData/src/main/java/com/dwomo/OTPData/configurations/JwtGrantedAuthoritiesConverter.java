@@ -1,4 +1,4 @@
-package com.dwomo.houseowner.configuration;
+package com.dwomo.OTPData.configurations;
 
 import com.jayway.jsonpath.JsonPath;
 import com.jayway.jsonpath.PathNotFoundException;

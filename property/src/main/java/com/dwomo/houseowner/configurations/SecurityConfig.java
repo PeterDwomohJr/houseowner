@@ -1,4 +1,4 @@
-package com.dwomo.houseowner.configuration;
+package com.dwomo.houseowner.configurations;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

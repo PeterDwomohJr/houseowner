@@ -22,7 +22,7 @@ public class PropertyController {
 
 
 
-    @GetMapping("/all")
+    @GetMapping()
     @PreAuthorize("hasAuthority('admin')")
     public Flux<PropertyDTO> getProperties()
     {

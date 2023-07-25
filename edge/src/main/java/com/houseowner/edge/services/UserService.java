@@ -47,7 +47,7 @@ public class UserService {
 
 
 
-    public Mono<Long> getUserCount()
+    public Mono<Long> getCount()
     {
         // returns the number of users in the repository
         return userRepository.count();

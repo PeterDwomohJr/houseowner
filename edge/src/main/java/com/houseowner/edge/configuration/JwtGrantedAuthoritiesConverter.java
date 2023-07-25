@@ -12,7 +12,9 @@ import java.util.stream.Stream;
 
 @RequiredArgsConstructor
 public class JwtGrantedAuthoritiesConverter implements Converter<Jwt, Collection<? extends GrantedAuthority>> {
+
     private final SpringAddonsProperties.IssuerProperties properties;
+
 
     @Override
     @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -30,7 +32,8 @@ public class JwtGrantedAuthoritiesConverter implements Converter<Jwt, Collection
             if (claim instanceof String claimString) {
                 return Stream.of(claimString.split(","));
             }
-            if (claim instanceof String[] claimArrays) {
+            if (claim.getClass() == String[].class)  {
+                String claimArrays = "";
                 return Stream.of(claimArrays);
             }
             if (Collection.class.isAssignableFrom(claim.getClass())) {
@@ -39,7 +42,7 @@ public class JwtGrantedAuthoritiesConverter implements Converter<Jwt, Collection
                     return Stream.empty();
                 }
                 final var firstItem = iterator.next();
-                if (firstItem instanceof String) {
+                if (firstItem.getClass() == String.class) {
                     return (Stream<String>) ((Collection) claim).stream();
                 }
                 if (Collection.class.isAssignableFrom(firstItem.getClass())) {

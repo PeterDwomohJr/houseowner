@@ -6,10 +6,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import java.util.Map;
@@ -48,6 +45,16 @@ public class UserController {
     }
 
 
+
+    @GetMapping("/phone")
+    public Mono<UserDTO> getUserByPhoneNumber(@RequestBody String phoneNumber)
+    {
+        // returns the user with the associated phone number
+        return userService.getUserByPhoneNumber(phoneNumber);
+    }
+
+
+
     @GetMapping("/userinfo")
     @PreAuthorize("hasAuthority('user')")
     public Mono<Map<String, Object>> getUserInfo(@AuthenticationPrincipal OAuth2User oAuth2User)
@@ -62,7 +69,7 @@ public class UserController {
     public Mono<Long> getUserCount()
     {
         // returns the number of users in the repository
-        return userService.getUserCount();
+        return userService.getCount();
     }
 
 

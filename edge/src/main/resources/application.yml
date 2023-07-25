@@ -59,7 +59,7 @@ keycloak:
 
 twilio:
   account_sid: AC8797b8b123d9e5cbe4892b54c51083d2
-  auth_token: 3c3828fd981c77602fd1688dec6fbee5
+  auth_token: 72fad21b66af949877a5914bbb7f3dd7
   trial_number: +18786458537
 
 

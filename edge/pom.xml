@@ -9,12 +9,13 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.dwomo</groupId>
-	<artifactId>property</artifactId>
+	<artifactId>edge</artifactId>
 	<version>0.0.0-SNAPSHOT</version>
 	<name>edge</name>
 	<description>This is the edge microservice</description>
 	<properties>
-		<java.version>17</java.version>
+		<java.version>16</java.version>
+		<jackson.version>2.15.2</jackson.version>
 	</properties>
 	<dependencies>
 
@@ -32,6 +33,18 @@
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.pulsar</groupId>
+			<artifactId>pulsar-client-reactive-adapter</artifactId>
+			<version>0.3.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.pulsar</groupId>
+			<artifactId>pulsar-client-reactive-producer-cache-caffeine</artifactId>
+			<version>0.3.0</version>
 		</dependency>
 
 		<dependency>
@@ -79,6 +92,12 @@
 		</dependency>
 
 		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-jsr310</artifactId>
+			<version>2.15.2</version>
+		</dependency>
+
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
@@ -98,6 +117,9 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
+					<jvmArguments>
+						<jvmArg>--add-opens=java.base/sun.net=ALL-UNNAMED</jvmArg>
+					</jvmArguments>
 					<excludes>
 						<exclude>
 							<groupId>org.projectlombok</groupId>

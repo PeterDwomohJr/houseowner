@@ -44,7 +44,9 @@ public class CustomTokenFilter implements GatewayFilter, Ordered {
 
         String authorizationHeader = request.getHeaders().getFirst(AUTHORIZATION_HEADER);
 
-        if (authorizationHeader != null && authorizationHeader.startsWith(BEARER_PREFIX)) {
+        boolean authorizationHeaderIsPresent = authorizationHeader != null && authorizationHeader.startsWith(BEARER_PREFIX);
+
+        if (authorizationHeaderIsPresent) {
             // Extract the token after "Bearer "
             return authorizationHeader.substring(BEARER_PREFIX.length());
         }

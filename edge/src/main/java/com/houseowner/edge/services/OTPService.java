@@ -1,12 +1,13 @@
 package com.houseowner.edge.services;
 
 
-import com.houseowner.edge.aggregates.entities.OneTimePassword;
 import com.houseowner.edge.configuration.TwilioConfig;
 import com.houseowner.edge.dto.OTPStatus;
-import com.houseowner.edge.dto.OneTimePasswordDTO;
+import com.houseowner.edge.dto.OTPDTO;
 import com.houseowner.edge.dto.OneTimePasswordResponseDTO;
-import com.houseowner.edge.repositories.OneTimePasswordRepository;
+import com.houseowner.edge.events.Domain.OTPCreatedEvent;
+import com.houseowner.edge.events.publishers.OTPEventPublisher;
+import com.houseowner.edge.repositories.OTPCacheRepository;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
 import org.springframework.stereotype.Service;
@@ -18,31 +19,35 @@ import java.util.Random;
 public class OTPService {
 
     private final TwilioConfig twilioConfig;
-    private final OneTimePasswordRepository oneTimePasswordRepository;
+    private final OTPEventPublisher otpEventPublisher;
+    private final OTPCacheRepository otpCacheRepository;
 
 
 
-    public OTPService(TwilioConfig twilioConfig, OneTimePasswordRepository oneTimePasswordRepository)
+    public OTPService(TwilioConfig twilioConfig, OTPCacheRepository otpCacheRepository, OTPEventPublisher otpEventPublisher)
     {
         this.twilioConfig = twilioConfig;
-        this.oneTimePasswordRepository = oneTimePasswordRepository;
+        this.otpEventPublisher = otpEventPublisher;
+        this.otpCacheRepository = otpCacheRepository;
     }
 
-    public Mono<OneTimePasswordResponseDTO> sendOTP(OneTimePasswordDTO oneTimePasswordDTO)
-    {
+    public Mono<OneTimePasswordResponseDTO> sendOTP(OTPDTO OTPDTO) {
+
         OneTimePasswordResponseDTO oneTimePasswordResponseDTO = null;
+        OTPCreatedEvent otpCreatedEvent = new OTPCreatedEvent();
 
         try {
-            PhoneNumber to = new PhoneNumber(oneTimePasswordDTO.getPhoneNumber());
+            PhoneNumber to = new PhoneNumber(OTPDTO.getPhoneNumber());
             PhoneNumber from = new PhoneNumber(twilioConfig.getTrialNumber());
-            OneTimePassword otp = generateOTP(oneTimePasswordDTO.getPhoneNumber());
 
-            String otpString = otp.getOneTimePassword();
-            String otpMessage = "Hello dear, your OTP is: " + otpString + ". Use this OTP to complete the user registration. Thank you";
+            String otpString = generateOTP();
+
+            otpCreatedEvent.setOtpString(otpString);
+            otpCreatedEvent.setPhoneNumber(OTPDTO.getPhoneNumber());
+
+            String otpMessage = "Hello dear, your OTP is: " + otpString + ". Use this OTP to complete the Houseowner user registration. Thank you";
 
             Message.creator(to, from, otpMessage).create();
-
-            oneTimePasswordRepository.insert(otp);
 
             oneTimePasswordResponseDTO = new OneTimePasswordResponseDTO(OTPStatus.DELIVERED, otpMessage);
 
@@ -50,27 +55,43 @@ public class OTPService {
             oneTimePasswordResponseDTO = new OneTimePasswordResponseDTO(OTPStatus.FAILED, exception.getMessage());
         }
 
+        otpEventPublisher.publishOTPToBroker(otpCreatedEvent);
+
         return Mono.just(oneTimePasswordResponseDTO);
     }
 
 
-    private OneTimePassword generateOTP(String phoneNumberTo)
+    private String generateOTP()
     {
-        String otpString =  new DecimalFormat("0000000")
+        return new DecimalFormat("0000000")
                 .format(new Random().nextInt(9999999));
-
-        return new OneTimePassword(otpString, phoneNumberTo);
     }
 
 
 
-    public Mono<Boolean> validateOTP(OneTimePasswordDTO oneTimePassword)
-    {
-       Mono<OneTimePassword> oneTimePasswordFromDatabase = oneTimePasswordRepository.findOneTimePassword(oneTimePassword.getOneTimePassword());
 
-       Mono<Boolean> result = oneTimePasswordFromDatabase.map(otp -> otp.getOneTimePassword().equals(oneTimePassword.getOneTimePassword()));
-       oneTimePasswordRepository.deleteOneTimePassword(oneTimePassword.getOneTimePassword());
-       return result;
+    public Mono<Boolean> validateOTP(String otpString, String phoneNumber)
+    {
+        deleteOtpAfterValidation(phoneNumber).subscribe();
+
+        Mono<Boolean> result = verifyOTP(otpString, phoneNumber);
+
+        return result;
+
+    }
+
+
+
+    private Mono<Boolean> verifyOTP(String otpString, String phoneNumber)
+    {
+        return otpCacheRepository.findByOtpString(phoneNumber)
+                .filter(otpToken -> otpToken.getOtpString().equals(phoneNumber) && otpToken.getPhoneNumber().equals(otpString))
+                .hasElement();
+    }
+
+    private Mono<Void> deleteOtpAfterValidation(String phoneNumber)
+    {
+       return  otpCacheRepository.deleteByPhoneNumber(phoneNumber);
     }
 
 }

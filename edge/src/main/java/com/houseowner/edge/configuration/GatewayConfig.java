@@ -9,15 +9,23 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class GatewayConfig {
-
+    private static final String PROPERTY_ID = "property-service";
+    private static final String PROPERTY_PATH = "/api/v0/property/**";
+    private static final String PROPERTY_HOST = "http://localhost:9090";
+    private static final String OTP_DATA_ID = "otp-data-service";
+    private static final String OTP_DATA_PATH = "/api/v0/otp/**";
+    private static final String OTP_DATA_HOST = "http://localhost:9094";
 
     @Bean
     public RouteLocator propertyRouteLocator(RouteLocatorBuilder routeLocatorBuilder)
     {
         return routeLocatorBuilder.routes()
-                .route("property-service", resource -> resource.path("/api/v0/property/**")
+                .route(PROPERTY_ID, resource -> resource.path(PROPERTY_PATH)
                         .filters(filter -> filter.filter(tokenFilter()))
-                        .uri("http://localhost:9090"))
+                        .uri(PROPERTY_HOST))
+                .route(OTP_DATA_ID, resource -> resource.path(OTP_DATA_PATH)
+                        .filters(filter -> filter.filter(tokenFilter()))
+                        .uri(OTP_DATA_HOST))
                 .build();
 
     }

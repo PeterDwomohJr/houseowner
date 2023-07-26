@@ -2,10 +2,12 @@ package com.houseowner.edge.controllers;
 
 
 import com.houseowner.edge.dto.OTPCreatedEventDTO;
+import com.houseowner.edge.dto.ConsumeTopicRequestDTO;
 import com.houseowner.edge.events.handlers.OTPEventHandler;
 import com.houseowner.edge.services.OTPRepositoryService;
 import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
@@ -13,7 +15,7 @@ import reactor.core.publisher.Mono;
 
 @RestController
 @EnableReactiveMethodSecurity(useAuthorizationManager = true)
-@RequestMapping("/api/v0/local-otp")
+@RequestMapping("/api/v0/cache-otp")
 public class OTPRepositoryController {
 
 
@@ -39,9 +41,9 @@ public class OTPRepositoryController {
 
 
     @GetMapping("/receive")
-    public void receiveOTP()
+    public void receiveOTP(@RequestBody ConsumeTopicRequestDTO consumeTopicRequestDTO)
     {
-        otpEventHandler.receiveOTP();
+        otpEventHandler.saveOTP(consumeTopicRequestDTO);
     }
 
 

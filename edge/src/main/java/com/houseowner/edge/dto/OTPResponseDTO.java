@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 @NoArgsConstructor
 @Component
-public class OneTimePasswordResponseDTO {
+public class OTPResponseDTO {
 
     private OTPStatus status;
     private String message;

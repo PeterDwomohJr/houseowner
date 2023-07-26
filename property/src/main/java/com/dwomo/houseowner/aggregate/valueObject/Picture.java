@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -12,5 +14,5 @@ import org.springframework.stereotype.Component;
 public class Picture {
 
     private String pictureURL;
-    private String metadata;
+    private List<String> metadata;
 }

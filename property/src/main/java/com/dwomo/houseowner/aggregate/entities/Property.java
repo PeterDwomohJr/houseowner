@@ -20,7 +20,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Document(collection = "properties")
+@Document(collection = "cache-properties")
 @Component
 public class Property {
 

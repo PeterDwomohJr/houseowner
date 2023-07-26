@@ -1,5 +1,6 @@
 package com.houseowner.edge.events.publishers;
 
+import com.houseowner.edge.dto.DTO;
 import com.houseowner.edge.events.Domain.OTPCreatedEvent;
 import org.apache.pulsar.client.api.PulsarClient;
 import org.apache.pulsar.client.api.PulsarClientException;
@@ -11,16 +12,15 @@ import org.apache.pulsar.reactive.client.api.ReactivePulsarClient;
 import org.springframework.stereotype.Service;
 
 @Service
-public class OTPEventPublisher {
+public class EventPublisher {
 
     private final ReactivePulsarClient reactivePulsarClient;
     private static final String PULSAR_SERVICE_URL = "pulsar://localhost:6650";
-    private static final String TOPIC_NAME = "otp-topic";
     private static final int MAX_IN_FLIGHT = 100;
 
 
 
-    public OTPEventPublisher() throws PulsarClientException {
+    public EventPublisher() throws PulsarClientException {
         PulsarClient pulsarClient = PulsarClient.builder()
                 .serviceUrl(PULSAR_SERVICE_URL)
                 .build();
@@ -30,16 +30,15 @@ public class OTPEventPublisher {
 
 
 
-    public void publishOTPToBroker(OTPCreatedEvent otpCreatedEvent)
+    public void publishToBroker(DTO otpCreatedEvent, String topic)
     {
-        ReactiveMessageSender<OTPCreatedEvent> messageSender = reactivePulsarClient
-                .messageSender(Schema.JSON(OTPCreatedEvent.class))
+        ReactiveMessageSender<DTO> messageSender = reactivePulsarClient
+                .messageSender(Schema.JSON(DTO.class))
                 .cache(AdaptedReactivePulsarClientFactory.createCache())
-                .topic(TOPIC_NAME)
+                .topic(topic)
                 .maxInflight(MAX_IN_FLIGHT)
                 .build();
 
         messageSender.sendOne(MessageSpec.of(otpCreatedEvent)).subscribe();
-
     }
 }

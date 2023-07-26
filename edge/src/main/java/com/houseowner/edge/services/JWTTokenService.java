@@ -1,7 +1,8 @@
 package com.houseowner.edge.services;
 
+import com.houseowner.edge.builders.DTOBuilder;
 import com.houseowner.edge.dto.JWTTokenDTO;
-import com.houseowner.edge.dto.JWTTokenResponse;
+import com.houseowner.edge.dto.JWTTokenResponseDTO;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,7 @@ public class JWTTokenService {
     private static final String KEYCLOAK_TOKEN_URL = "http://localhost:8888/realms/houseowner/protocol/openid-connect/token";
 
 
-    public Flux<JWTTokenResponse> generateJWTToken(JWTTokenDTO jwtTokenDTO) {
+    public Flux<JWTTokenResponseDTO> generateJWTToken(DTOBuilder jwtTokenDTO) {
 
         WebClient client = WebClient.builder()
                 .baseUrl(KEYCLOAK_TOKEN_URL)
@@ -36,22 +37,20 @@ public class JWTTokenService {
                         .with(USERNAME, jwtTokenDTO.getUsername())
                         .with(PASSWORD, jwtTokenDTO.getPassword()))
                 .retrieve()
-                .bodyToFlux(JWTTokenResponse.class);
-
-
+                .bodyToFlux(JWTTokenResponseDTO.class);
     }
 
 
-    public Flux<String> getJWTAccessToken(JWTTokenDTO jwtTokenDTO)
+    public Flux<String> getJWTAccessToken(DTOBuilder jwtTokenDTO)
     {
-        Flux<JWTTokenResponse> jwtTokenResponse = generateJWTToken(jwtTokenDTO);
-        return jwtTokenResponse.map(JWTTokenResponse::getAccess_token);
+        Flux<JWTTokenResponseDTO> jwtTokenResponse = generateJWTToken(jwtTokenDTO);
+        return jwtTokenResponse.map(JWTTokenResponseDTO::getAccess_token);
     }
 
 
-    public Flux<String> getJWTRefreshToken(JWTTokenDTO jwtTokenDTO)
+    public Flux<String> getJWTRefreshToken(DTOBuilder jwtTokenDTO)
     {
-        Flux<JWTTokenResponse> jwtTokenResponse = generateJWTToken(jwtTokenDTO);
-        return jwtTokenResponse.map(JWTTokenResponse::getRefresh_token);
+        Flux<JWTTokenResponseDTO> jwtTokenResponse = generateJWTToken(jwtTokenDTO);
+        return jwtTokenResponse.map(JWTTokenResponseDTO::getRefresh_token);
     }
 }

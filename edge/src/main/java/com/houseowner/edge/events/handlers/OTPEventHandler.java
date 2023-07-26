@@ -1,6 +1,8 @@
 package com.houseowner.edge.events.handlers;
 
+import com.houseowner.edge.dto.DTO;
 import com.houseowner.edge.dto.OTPCreatedEventDTO;
+import com.houseowner.edge.dto.ConsumeTopicRequestDTO;
 import com.houseowner.edge.services.OTPRepositoryService;
 import org.apache.pulsar.client.api.PulsarClient;
 import org.apache.pulsar.client.api.PulsarClientException;
@@ -18,8 +20,6 @@ public class OTPEventHandler {
     private final ReactivePulsarClient reactivePulsarClient;
     private final OTPRepositoryService otpRepositoryService;
     private static final String PULSAR_SERVICE_URL = "pulsar://localhost:6650";
-    private static final String SUBSCRIPTION_NAME = "local-otp-subscription";
-    private static final String TOPIC_NAME = "otp-topic";
 
 
 
@@ -36,23 +36,23 @@ public class OTPEventHandler {
 
 
 
-    public void receiveOTP()
+    public void saveOTP(ConsumeTopicRequestDTO consumeTopicRequestDTO)
     {
-        ReactiveMessageConsumer<OTPCreatedEventDTO> messageConsumer = reactivePulsarClient
-                .messageConsumer(Schema.JSON(OTPCreatedEventDTO.class))
-                .topic(TOPIC_NAME)
-                .subscriptionName(SUBSCRIPTION_NAME)
+        ReactiveMessageConsumer<DTO> messageConsumer = reactivePulsarClient
+                .messageConsumer(Schema.JSON(DTO.class))
+                .topic(consumeTopicRequestDTO.getTopicName())
+                .subscriptionName(consumeTopicRequestDTO.getSubscriptionName())
                 .build();
 
         messageConsumer.consumeMany(messageFlux ->
                         messageFlux.map(message ->
                                 MessageResult.acknowledge(message.getMessageId(), message.getValue())))
-                .doOnNext(otp -> otpCommand(otp.getPhoneNumber(), otp.getOtpString()))
+                .doOnNext(otp -> messageCommand(otp.getPhoneNumber(), otp.getOtpString()))
                 .subscribe();
     }
 
 
-    private void otpCommand(String phoneNumber, String otpString)
+    private void messageCommand(String phoneNumber, String otpString)
     {
         OTPCreatedEventDTO otpCreatedEventDTO = new OTPCreatedEventDTO();
 

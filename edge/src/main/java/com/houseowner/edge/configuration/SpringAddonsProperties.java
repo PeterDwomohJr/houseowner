@@ -11,6 +11,7 @@ import java.util.stream.Stream;
 @Configuration
 @ConfigurationProperties(prefix = "spring-addons")
 public class SpringAddonsProperties {
+
     private IssuerProperties[] issuers = {};
 
     @Data
@@ -31,8 +32,9 @@ public class SpringAddonsProperties {
         }
     }
 
-    public IssuerProperties get(URL issuerUri) throws MisconfigurationException {
-        final var issuerProperties = Stream.of(issuers).filter(iss -> issuerUri.equals(iss.getUri())).toList();
+    public IssuerProperties getIssuerProperties(URL issuerUri) throws MisconfigurationException {
+
+        final var issuerProperties = Stream.of(issuers).filter(issuer -> issuerUri.equals(issuer.getUri())).toList();
         if (issuerProperties.size() == 0) {
             throw new MisconfigurationException("Missing authorities mapping properties for %s".formatted(issuerUri.toString()));
         }

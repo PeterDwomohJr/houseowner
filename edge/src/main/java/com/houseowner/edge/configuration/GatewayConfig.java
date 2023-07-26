@@ -15,6 +15,9 @@ public class GatewayConfig {
     private static final String OTP_DATA_ID = "otp-data-service";
     private static final String OTP_DATA_PATH = "/api/v0/otp/**";
     private static final String OTP_DATA_HOST = "http://localhost:9094";
+    private static final String USER_DATA_ID = "user-data-service";
+    private static final String USER_DATA_PATH = "/api/v0/user/**";
+    private static final String USER_DATA_HOST = "http://localhost:9095";
 
     @Bean
     public RouteLocator propertyRouteLocator(RouteLocatorBuilder routeLocatorBuilder)
@@ -26,6 +29,9 @@ public class GatewayConfig {
                 .route(OTP_DATA_ID, resource -> resource.path(OTP_DATA_PATH)
                         .filters(filter -> filter.filter(tokenFilter()))
                         .uri(OTP_DATA_HOST))
+                .route(USER_DATA_ID, resource -> resource.path(USER_DATA_PATH)
+                        .filters(filter -> filter.filter(tokenFilter()))
+                        .uri(USER_DATA_HOST))
                 .build();
 
     }

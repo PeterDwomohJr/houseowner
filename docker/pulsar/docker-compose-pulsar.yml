@@ -1,0 +1,58 @@
+version: "3.8"
+
+services:
+
+  zookeeper:
+    image: zookeeper:latest
+    container_name: zookeeper
+    networks:
+      - my-net
+
+    ports:
+      - "2181:2181"
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+
+  bookkeeper:
+    image: apache/bookkeeper:latest
+    container_name: bookkeeper
+    networks:
+      - my-net
+    depends_on:
+      - zookeeper
+    
+    ports:
+      - "3181:3181"
+      - "7071:8080"
+      
+    environment:
+      
+      BK_zkServers: zookeeper:2181
+      BK_CLUSTER_ROOT_PATH: bookkeeper
+      BK_metadataServiceUri: zk://zookeeper:2181/bookkeeper/ledgers
+      BK_bookiePort: 3181
+      BK_httpServerEnabled: "true"
+      BK_httpServerPort: 7070
+
+    #volumes:
+    #  - ./data/bookkeeper:/data/bookkeeper
+
+ 
+  broker:
+    image: apachepulsar/pulsar:latest
+    container_name: pulsar
+    command: bin/pulsar standalone
+    restart: "no"
+    ports:
+      - "6650:6650"
+      - "7072:7072"
+    depends_on:
+      - zookeeper
+      - bookkeeper
+    networks:
+      - my-net
+
+
+networks:
+  my-net:
+    external: true

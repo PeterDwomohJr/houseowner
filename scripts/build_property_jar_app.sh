@@ -1,4 +1,4 @@
-#Define the Shebang
+# Define the Shebang
 #!/bin/bash
 
 # Set the path of the Property directory variable

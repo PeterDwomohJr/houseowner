@@ -31,7 +31,7 @@ spring:
           issuer-uri: http://localhost:8888/realms/houseowner
 
   application:
-    name: Property-Service
+    name: Property-Application-Service
 
 
 

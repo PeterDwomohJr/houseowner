@@ -1,12 +1,13 @@
 package com.houseowner.edge.services;
 
 
+import com.houseowner.edge.builders.DTOBuilder;
 import com.houseowner.edge.configuration.TwilioConfig;
-import com.houseowner.edge.dto.OTPStatus;
+import com.houseowner.edge.dto.DTO;
 import com.houseowner.edge.dto.OTPDTO;
-import com.houseowner.edge.dto.OneTimePasswordResponseDTO;
-import com.houseowner.edge.events.Domain.OTPCreatedEvent;
-import com.houseowner.edge.events.publishers.OTPEventPublisher;
+import com.houseowner.edge.dto.OTPResponseDTO;
+import com.houseowner.edge.dto.OTPStatus;
+import com.houseowner.edge.events.publishers.EventPublisher;
 import com.houseowner.edge.repositories.OTPCacheRepository;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
@@ -19,22 +20,22 @@ import java.util.Random;
 public class OTPService {
 
     private final TwilioConfig twilioConfig;
-    private final OTPEventPublisher otpEventPublisher;
+    private final EventPublisher eventPublisher;
     private final OTPCacheRepository otpCacheRepository;
 
 
 
-    public OTPService(TwilioConfig twilioConfig, OTPCacheRepository otpCacheRepository, OTPEventPublisher otpEventPublisher)
+    public OTPService(TwilioConfig twilioConfig, OTPCacheRepository otpCacheRepository, EventPublisher eventPublisher)
     {
         this.twilioConfig = twilioConfig;
-        this.otpEventPublisher = otpEventPublisher;
+        this.eventPublisher = eventPublisher;
         this.otpCacheRepository = otpCacheRepository;
     }
 
-    public Mono<OneTimePasswordResponseDTO> sendOTP(OTPDTO OTPDTO) {
+    public Mono<OTPResponseDTO> sendOTP(OTPDTO OTPDTO) {
 
-        OneTimePasswordResponseDTO oneTimePasswordResponseDTO = null;
-        OTPCreatedEvent otpCreatedEvent = new OTPCreatedEvent();
+        OTPResponseDTO OTPResponseDTO;
+        DTO otpCreatedEventDTO = null;
 
         try {
             PhoneNumber to = new PhoneNumber(OTPDTO.getPhoneNumber());
@@ -42,22 +43,26 @@ public class OTPService {
 
             String otpString = generateOTP();
 
-            otpCreatedEvent.setOtpString(otpString);
-            otpCreatedEvent.setPhoneNumber(OTPDTO.getPhoneNumber());
+            otpCreatedEventDTO = new DTOBuilder()
+                    .setOTPString(otpString)
+                    .setPhoneNumber(OTPDTO.getPhoneNumber())
+                    .build();
 
             String otpMessage = "Hello dear, your OTP is: " + otpString + ". Use this OTP to complete the Houseowner user registration. Thank you";
 
             Message.creator(to, from, otpMessage).create();
 
-            oneTimePasswordResponseDTO = new OneTimePasswordResponseDTO(OTPStatus.DELIVERED, otpMessage);
+            OTPResponseDTO = new OTPResponseDTO(OTPStatus.DELIVERED, otpMessage);
 
         } catch (Exception exception) {
-            oneTimePasswordResponseDTO = new OneTimePasswordResponseDTO(OTPStatus.FAILED, exception.getMessage());
+            OTPResponseDTO = new OTPResponseDTO(OTPStatus.FAILED, exception.getMessage());
         }
 
-        otpEventPublisher.publishOTPToBroker(otpCreatedEvent);
+        // Send the OTP to the broker
 
-        return Mono.just(oneTimePasswordResponseDTO);
+        eventPublisher.publishToBroker(otpCreatedEventDTO, "otp-created-topic");
+
+        return Mono.just(OTPResponseDTO);
     }
 
 

@@ -1,8 +1,8 @@
-package com.houseowner.edge.events.handlers;
+package com.dwomo.otpdata.events.handlers;
 
-import com.houseowner.edge.dto.OTPCreatedEventDTO;
-import com.houseowner.edge.dto.ConsumeTopicRequestDTO;
-import com.houseowner.edge.services.OTPRepositoryService;
+
+import com.dwomo.otpdata.dto.OTPCreatedEventDTO;
+import com.dwomo.otpdata.services.OTPService;
 import org.apache.pulsar.client.api.PulsarClient;
 import org.apache.pulsar.client.api.PulsarClientException;
 import org.apache.pulsar.client.api.Schema;
@@ -17,14 +17,14 @@ import reactor.core.publisher.Mono;
 public class OTPEventHandler {
 
     private final ReactivePulsarClient reactivePulsarClient;
-    private final OTPRepositoryService otpRepositoryService;
+    private final OTPService otpService;
     private static final String PULSAR_SERVICE_URL = "pulsar://localhost:6650";
-    private static final String SUBSCRIPTION_NAME = "local-otp-subscription";
+    private static final String SUBSCRIPTION_NAME = "otp-subscription";
     private static final String TOPIC_NAME = "otp-topic";
 
 
 
-    public OTPEventHandler(OTPRepositoryService otpRepositoryService) throws PulsarClientException
+    public OTPEventHandler(OTPService otpService) throws PulsarClientException
     {
         PulsarClient pulsarClient = PulsarClient.builder()
                 .serviceUrl(PULSAR_SERVICE_URL)
@@ -32,22 +32,22 @@ public class OTPEventHandler {
 
         this.reactivePulsarClient = AdaptedReactivePulsarClientFactory.create(pulsarClient);
 
-        this.otpRepositoryService = otpRepositoryService;
+        this.otpService = otpService;
     }
 
 
 
-    public void receiveOTP(ConsumeTopicRequestDTO consumeTopicRequestDTO)
+    public void receiveOTP()
     {
         ReactiveMessageConsumer<OTPCreatedEventDTO> messageConsumer = reactivePulsarClient
                 .messageConsumer(Schema.JSON(OTPCreatedEventDTO.class))
-                .topic(consumeTopicRequestDTO.getTopic())
-                .subscriptionName(consumeTopicRequestDTO.getSubscription())
+                .topic(TOPIC_NAME)
+                .subscriptionName(SUBSCRIPTION_NAME)
                 .build();
 
         messageConsumer.consumeMany(messageFlux ->
-                        messageFlux.map(message ->
-                                MessageResult.acknowledge(message.getMessageId(), message.getValue())))
+                messageFlux.map(message ->
+                       MessageResult.acknowledge(message.getMessageId(), message.getValue())))
                 .doOnNext(otp -> otpCommand(otp.getPhoneNumber(), otp.getOtpString()))
                 .subscribe();
     }
@@ -64,8 +64,7 @@ public class OTPEventHandler {
 
         otpCreatedEventDTOMono.subscribe(System.out::println);
 
-        otpRepositoryService.saveOTP(otpCreatedEventDTOMono).subscribe();
+        otpService.saveOTP(otpCreatedEventDTOMono).subscribe();
 
     }
 }
-

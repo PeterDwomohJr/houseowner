@@ -1,6 +1,5 @@
 package com.houseowner.edge.dto;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,8 +9,8 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 @NoArgsConstructor
 @Component
-public class OneTimePasswordResponseDTO {
+public class ConsumeTopicRequestDTO {
 
-    private OTPStatus status;
-    private String message;
+    private String topic;
+    private String subscription;
 }

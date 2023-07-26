@@ -1,4 +1,4 @@
-package com.houseowner.edge.configuration;
+package com.dwomo.otpdata.configurations;
 
 import com.jayway.jsonpath.JsonPath;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +16,7 @@ public class SpringAddonsJwtAuthenticationConverter implements Converter<Jwt, Mo
 
     @Override
     public Mono<? extends AbstractAuthenticationToken> convert(Jwt jwt) {
-        final var issuerProperties = springAddonsProperties.getIssuerProperties(jwt.getIssuer());
+        final var issuerProperties = springAddonsProperties.get(jwt.getIssuer());
         final var authorities = new JwtGrantedAuthoritiesConverter(issuerProperties).convert(jwt);
         final String username = JsonPath.read(jwt.getClaims(), issuerProperties.getUsernameJsonPath());
         return Mono.just(new JwtAuthenticationToken(jwt, authorities, username));

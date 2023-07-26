@@ -1,4 +1,4 @@
-package com.houseowner.edge.configuration;
+package com.dwomo.otpdata.configurations;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -11,7 +11,6 @@ import java.util.stream.Stream;
 @Configuration
 @ConfigurationProperties(prefix = "spring-addons")
 public class SpringAddonsProperties {
-
     private IssuerProperties[] issuers = {};
 
     @Data
@@ -32,9 +31,8 @@ public class SpringAddonsProperties {
         }
     }
 
-    public IssuerProperties getIssuerProperties(URL issuerUri) throws MisconfigurationException {
-
-        final var issuerProperties = Stream.of(issuers).filter(issuer -> issuerUri.equals(issuer.getUri())).toList();
+    public IssuerProperties get(URL issuerUri) throws MisconfigurationException {
+        final var issuerProperties = Stream.of(issuers).filter(iss -> issuerUri.equals(iss.getUri())).toList();
         if (issuerProperties.size() == 0) {
             throw new MisconfigurationException("Missing authorities mapping properties for %s".formatted(issuerUri.toString()));
         }

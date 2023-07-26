@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 @NoArgsConstructor
 @Component
-public class JWTTokenResponse {
+public class JWTTokenResponseDTO{
 
     private String access_token;
     private int expires_in;
@@ -21,8 +21,4 @@ public class JWTTokenResponse {
     private String session_state;
     private String scope;
 
-    public String getAccessToken() {
-
-        return access_token;
-    }
 }

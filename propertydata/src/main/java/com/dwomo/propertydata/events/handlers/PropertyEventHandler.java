@@ -35,7 +35,7 @@ public class PropertyEventHandler {
 
 
 
-    public void saveProperty(ConsumeTopicRequestDTO consumeTopicRequestDTO)
+    public void consumeTopic(ConsumeTopicRequestDTO consumeTopicRequestDTO)
     {
         ReactiveMessageConsumer<PropertyCreatedEventDTO> messageConsumer = reactivePulsarClient
                 .messageConsumer(Schema.JSON(PropertyCreatedEventDTO.class))
@@ -53,11 +53,11 @@ public class PropertyEventHandler {
 
     private void messageCommand(PropertyCreatedEventDTO propertyCreatedEventDTO)
     {
-        Mono<PropertyCreatedEventDTO> otpCreatedEventDTOMono = Mono.just(propertyCreatedEventDTO);
+        Mono<PropertyCreatedEventDTO> propertyCreatedEventDTOMono = Mono.just(propertyCreatedEventDTO);
 
-        otpCreatedEventDTOMono.subscribe(System.out::println);
+        propertyCreatedEventDTOMono.subscribe(System.out::println);
 
-        propertyService.save(otpCreatedEventDTOMono).subscribe();
+        propertyService.save(propertyCreatedEventDTOMono).subscribe();
 
     }
 }

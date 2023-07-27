@@ -79,7 +79,7 @@ public class UserController {
     public Flux<UserDTO> getActiveUsers()
     {
         // returns all the users that are active in the repository
-        return userService.getActiveUsers();
+        return userService.getActive();
     }
 
 
@@ -89,7 +89,7 @@ public class UserController {
     public Flux<UserDTO> getPendingUsers()
     {
         // returns all the users that are pending in the repository
-        return userService.getPendingUsers();
+        return userService.getPending();
     }
 
 
@@ -99,7 +99,7 @@ public class UserController {
     public Flux<UserDTO> getSoftDeletedUsers()
     {
         // returns all the users that are soft deleted
-        return userService.getSoftDeletedUsers();
+        return userService.getSoftDeleted();
     }
 
 
@@ -108,6 +108,6 @@ public class UserController {
     public Flux<UserDTO> getNonSoftDeletedUsers()
     {
         // returns all the users that are not soft deleted
-        return userService.getNonSoftDeletedUsers();
+        return userService.getNonSoftDeleted();
     }
 }

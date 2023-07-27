@@ -1,7 +1,7 @@
 package com.dwomo.houseowner.utils;
 
-import com.dwomo.houseowner.aggregate.entities.Property;
-import com.dwomo.houseowner.dto.PropertyDTO;
+import com.dwomo.houseowner.dto.PropertyCreatedEventDTO;
+import com.dwomo.houseowner.events.domain.PropertyCreatedEvent;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
@@ -9,22 +9,22 @@ import org.springframework.stereotype.Component;
 public class PropertyUtils {
 
 
-    public static PropertyDTO entityToDto(Property property) {
+    public static PropertyCreatedEventDTO entityToDto(PropertyCreatedEvent propertyCreatedEvent) {
 
-        PropertyDTO propertyDTO = new PropertyDTO();
+        PropertyCreatedEventDTO propertyCreatedEventDTO = new PropertyCreatedEventDTO();
 
-        BeanUtils.copyProperties(property, propertyDTO);
+        BeanUtils.copyProperties(propertyCreatedEvent, propertyCreatedEventDTO);
 
-        return propertyDTO;
+        return propertyCreatedEventDTO;
     }
 
 
-    public static Property dtoToEntity(PropertyDTO propertyDTO) {
+    public static PropertyCreatedEvent dtoToEntity(PropertyCreatedEventDTO propertyCreatedEventDTO) {
 
-        Property property = new Property();
+        PropertyCreatedEvent propertyCreatedEvent = new PropertyCreatedEvent();
 
-        BeanUtils.copyProperties(propertyDTO, property);
+        BeanUtils.copyProperties(propertyCreatedEventDTO, propertyCreatedEvent);
 
-        return property;
+        return propertyCreatedEvent;
     }
 }

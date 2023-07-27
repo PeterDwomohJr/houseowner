@@ -36,7 +36,7 @@ public class OTPEventHandler {
 
 
 
-    public void saveOTP(ConsumeTopicRequestDTO consumeTopicRequestDTO)
+    public void consumeTopic(ConsumeTopicRequestDTO consumeTopicRequestDTO)
     {
         ReactiveMessageConsumer<DTO> messageConsumer = reactivePulsarClient
                 .messageConsumer(Schema.JSON(DTO.class))

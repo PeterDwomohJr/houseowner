@@ -72,7 +72,7 @@ eureka:
 
 ---
 scheme: https
-keycloak-port: 9092
+keycloak-port: 9999
 
 server:
   ssl:

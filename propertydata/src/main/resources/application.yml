@@ -1,5 +1,5 @@
 server:
-  port: 9096
+  port: 9092
   shutdown: graceful
   error:
     include-message: always
@@ -59,7 +59,7 @@ eureka:
 
 ---
 scheme: https
-keycloak-port: 9092
+keycloak-port: 9999
 
 server:
   ssl:

@@ -1,4 +1,5 @@
-package com.dwomo.houseowner.aggregate.entities;
+package com.dwomo.houseowner.events.domain;
+
 
 import com.dwomo.houseowner.aggregate.valueObject.LandArea;
 import com.dwomo.houseowner.aggregate.valueObject.Location;
@@ -20,9 +21,9 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Document(collection = "cache-properties")
+@Document(collection = "properties")
 @Component
-public class Property {
+public class PropertyCreatedEvent {
 
     @Id
     private String id;
@@ -35,23 +36,23 @@ public class Property {
     private BigDecimal price;
     @NotNull(message = "The land area field cannot be empty.")
     private LandArea landArea;
-    @NotNull(message = "The number of plot field cannot be empty.")
+    @NotNull(message = "The number of plot field cannot be empty")
     @DecimalMin("0.1")
     @DecimalMax("1000000.0")
     private Double numberOfPlots;
     @NotBlank(message = "The land type field cannot be empty")
     private String landType;
-    @NotBlank(message = "The property type cannot be empty")
+    @NotBlank(message = "The property type field cannot be empty")
     private String propertyType;
     @NotNull(message = "The location field cannot be empty")
     private Location location;
-    @NoPersonallyIdentifiableInformation
+    @NoPersonallyIdentifiableInformation()
     private List<Message> messages;
     private List<Picture> pictures;
     @Pattern(regexp = "^(PENDING|ACTIVE)$", message = "You must enter a valid status")
     private String status;
     private boolean deleted;
     @CreatedBy
-    private String createdAt;
-    private LocalDateTime dateCreated = LocalDateTime.now();
+    private String createdBy;
+    private LocalDateTime createdAt = LocalDateTime.now();
 }

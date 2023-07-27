@@ -29,7 +29,7 @@ public class UserWriteController {
     public Mono<UserDTO> saveUser(@Valid @RequestBody Mono<UserDTO> user)
     {
         // save the user
-        return userService.saveUser(user);
+        return userService.save(user);
     }
 
 
@@ -38,7 +38,7 @@ public class UserWriteController {
     public Mono<UserDTO> updateUser(@PathVariable String id, @Valid @RequestBody Mono<UserDTO> user)
     {
         // update the user with the given id
-        return userService.updateUser(id, user);
+        return userService.update(id, user);
     }
 
 
@@ -48,7 +48,7 @@ public class UserWriteController {
     public Mono<Void> deleteUser(@PathVariable String id)
     {
         // delete the user with the given id
-        return userService.deleteUser(id);
+        return userService.delete(id);
     }
 
 
@@ -58,7 +58,7 @@ public class UserWriteController {
     public Mono<Void> softDeleteUser(@PathVariable String id)
     {
         // soft delete the user with the given id
-        return userService.softDeleteUser(id);
+        return userService.softDelete(id);
     }
 
 
@@ -68,7 +68,7 @@ public class UserWriteController {
     public Mono<Void> deleteAllUsers()
     {
         // deletes all users
-        return userService.deleteAllUsers();
+        return userService.deleteAll();
     }
 
 

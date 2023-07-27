@@ -54,7 +54,7 @@ public class UserService {
     }
 
 
-    public Flux<UserDTO> getActiveUsers()
+    public Flux<UserDTO> getActive()
     {
         // returns all the active users in the repository
         return userRepository.findAll().map(UserUtils::entityToDTO)
@@ -63,7 +63,7 @@ public class UserService {
 
 
 
-    public Flux<UserDTO> getPendingUsers()
+    public Flux<UserDTO> getPending()
     {
         // returns all the pending users in the repository
         return userRepository.findAll().map(UserUtils::entityToDTO)
@@ -72,7 +72,7 @@ public class UserService {
 
 
 
-    public Flux<UserDTO> getSoftDeletedUsers()
+    public Flux<UserDTO> getSoftDeleted()
     {
         // returns all the soft deleted users in the repository
         return userRepository.findAll().map(UserUtils::entityToDTO)
@@ -81,7 +81,7 @@ public class UserService {
 
 
 
-    public Flux<UserDTO> getNonSoftDeletedUsers()
+    public Flux<UserDTO> getNonSoftDeleted()
     {
         // returns all the non-soft deleted users in the repository
         return userRepository.findAll().map(UserUtils::entityToDTO)
@@ -90,7 +90,7 @@ public class UserService {
 
 
 
-    public Mono<UserDTO> saveUser(Mono<UserDTO> propertyDTOMono)
+    public Mono<UserDTO> save(Mono<UserDTO> propertyDTOMono)
     {
         // returns the saved user
         return propertyDTOMono.map(UserUtils::dtoToEntity)
@@ -99,7 +99,7 @@ public class UserService {
     }
 
 
-    public Mono<UserDTO> updateUser(String id, Mono<UserDTO> propertyDTOMono)
+    public Mono<UserDTO> update(String id, Mono<UserDTO> propertyDTOMono)
     {
         // returns the updated user
         return userRepository.findById(id)
@@ -110,7 +110,7 @@ public class UserService {
     }
 
 
-    public Mono<Void> deleteUser(String id)
+    public Mono<Void> delete(String id)
     {
         // deletes the user with the given id from the repository
         return userRepository.deleteById(id);
@@ -118,7 +118,7 @@ public class UserService {
 
 
 
-    public Mono<Void> softDeleteUser(String id)
+    public Mono<Void> softDelete(String id)
     {
         // deletes the user with the given id by marking the delete status as true
         return userRepository.findById(id)
@@ -128,7 +128,7 @@ public class UserService {
     }
 
 
-    public Mono<Void> deleteAllUsers()
+    public Mono<Void> deleteAll()
     {
         // deletes all users
         return userRepository.deleteAll();

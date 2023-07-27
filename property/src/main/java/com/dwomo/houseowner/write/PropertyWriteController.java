@@ -1,7 +1,7 @@
 package com.dwomo.houseowner.write;
 
 import com.dwomo.houseowner.aggregate.valueObject.Message;
-import com.dwomo.houseowner.dto.PropertyDTO;
+import com.dwomo.houseowner.dto.PropertyCreatedEventDTO;
 import com.dwomo.houseowner.service.PropertyService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -11,7 +11,7 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/v0/property")
+@RequestMapping("api/v0/cache-property")
 public class PropertyWriteController {
 
     private final PropertyService propertyService;
@@ -28,17 +28,17 @@ public class PropertyWriteController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public Mono<PropertyDTO> saveProperty(@Valid @RequestBody Mono<PropertyDTO> propertyDTOMono)
+    public Mono<PropertyCreatedEventDTO> saveProperty(@Valid @RequestBody Mono<PropertyCreatedEventDTO> propertyCreatedEventDTOMono)
     {
-        return propertyService.saveProperty(propertyDTOMono);
+        return propertyService.save(propertyCreatedEventDTOMono);
     }
 
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('admin')")
-    public Mono<PropertyDTO> updateProperty(@PathVariable String id, @Valid @RequestBody Mono<PropertyDTO> propertyDTOMono)
+    public Mono<PropertyCreatedEventDTO> updateProperty(@PathVariable String id, @Valid @RequestBody Mono<PropertyCreatedEventDTO> propertyCreatedEventDTOMono)
     {
-        return propertyService.updateProperty(id, propertyDTOMono);
+        return propertyService.update(id, propertyCreatedEventDTOMono);
     }
 
 
@@ -48,7 +48,7 @@ public class PropertyWriteController {
     public Mono<Void> deleteProperty(@PathVariable String id)
     {
         // delete the property that is associated with the entered id
-        return propertyService.deleteProperty(id);
+        return propertyService.delete(id);
     }
 
 
@@ -59,7 +59,7 @@ public class PropertyWriteController {
     public Mono<Void> softDeleteProperty(@PathVariable String id)
     {
         // call the property service to soft-delete the property by setting the delete field of property to true
-        return propertyService.softDeleteProperty(id);
+        return propertyService.softDelete(id);
     }
 
 
@@ -69,13 +69,13 @@ public class PropertyWriteController {
     public Mono<Void> deleteAllProperties()
     {
         // deletes all the properties that have been saved in the property collection
-        return propertyService.deleteAllProperties();
+        return propertyService.deleteProperties();
     }
 
 
     @PatchMapping("/{id}")
     @PreAuthorize("hasAuthority('admin')")
-    public Mono<PropertyDTO> setPropertyStatus(@PathVariable String id, @RequestParam String status)
+    public Mono<PropertyCreatedEventDTO> setPropertyStatus(@PathVariable String id, @RequestParam String status)
     {
         return propertyService.setPropertyStatus(id, status);
     }
@@ -84,7 +84,7 @@ public class PropertyWriteController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("{id}/message")
     @PreAuthorize("hasAuthority('user')")
-    public Mono<PropertyDTO> createMessage(@PathVariable String id, @RequestBody List<Message> messages)
+    public Mono<PropertyCreatedEventDTO> createMessage(@PathVariable String id, @RequestBody List<Message> messages)
     {
         return propertyService.createMessage(id, messages);
     }

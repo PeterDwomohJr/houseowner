@@ -11,7 +11,11 @@ import com.houseowner.edge.events.publishers.EventPublisher;
 import com.houseowner.edge.repositories.OTPCacheRepository;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.BodyInserters;
+import org.springframework.web.reactive.function.server.ServerRequest;
+import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 import java.text.DecimalFormat;
 import java.util.Random;
@@ -89,5 +93,23 @@ public class OTPService {
                 .filter(otpToken -> otpToken.getOtpString().equals(phoneNumber) && otpToken.getPhoneNumber().equals(otpString) && otpToken.getOtpValid().equals("N/A"))
                 .doOnNext(otpCreatedEventDTO -> otpCreatedEventDTO.setOtpValid(INVALID_OTP_TAG))
                 .hasElement();
+    }
+
+
+
+    public Mono<ServerResponse> sendOTP(ServerRequest serverRequest)
+    {
+
+        return serverRequest.bodyToMono(OTPDTO.class)
+                .flatMap(this::sendOTP)
+                .flatMap(otpDTO -> ServerResponse.status(HttpStatus.OK).body(BodyInserters.fromValue(otpDTO)));
+    }
+
+
+    public Mono<ServerResponse> validateOTP(ServerRequest serverRequest)
+    {
+        return serverRequest.bodyToMono(OTPDTO.class)
+                .flatMap(otpDTO -> this.validateOTP(otpDTO.getPhoneNumber(), otpDTO.getOtpString()))
+                .flatMap(otpDTO -> ServerResponse.status(HttpStatus.OK).bodyValue(otpDTO));
     }
 }

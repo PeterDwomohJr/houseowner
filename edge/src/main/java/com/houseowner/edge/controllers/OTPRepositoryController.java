@@ -40,10 +40,10 @@ public class OTPRepositoryController {
 
 
 
-    @GetMapping("/receive")
-    public void receiveOTP(@RequestBody ConsumeTopicRequestDTO consumeTopicRequestDTO)
+    @GetMapping("/consume")
+    public void consumeTopic(@RequestBody ConsumeTopicRequestDTO consumeTopicRequestDTO)
     {
-        otpEventHandler.saveOTP(consumeTopicRequestDTO);
+        otpEventHandler.consumeTopic(consumeTopicRequestDTO);
     }
 
 

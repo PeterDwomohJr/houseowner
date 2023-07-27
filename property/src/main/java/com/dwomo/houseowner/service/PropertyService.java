@@ -1,7 +1,8 @@
 package com.dwomo.houseowner.service;
 
 import com.dwomo.houseowner.aggregate.valueObject.Message;
-import com.dwomo.houseowner.dto.PropertyDTO;
+import com.dwomo.houseowner.dto.PropertyCreatedEventDTO;
+import com.dwomo.houseowner.events.publisher.EventPublisher;
 import com.dwomo.houseowner.repository.PropertyRepository;
 import com.dwomo.houseowner.utils.PropertyUtils;
 import org.springframework.stereotype.Service;
@@ -22,28 +23,32 @@ import java.util.List;
 @Service
 public class PropertyService {
 
-    private final String ACTIVE_STATUS = "ACTIVE";
-    private final String PENDING_STATUS = "PENDING";
+    private static final String ACTIVE_STATUS = "ACTIVE";
+    private static final String PENDING_STATUS = "PENDING";
+    private static final String TOPIC_NAME = "property-created-topic";
+    private final EventPublisher eventPublisher;
     private final PropertyRepository propertyRepository;
+
 
 
     /**
      *
      */
-    public PropertyService(PropertyRepository propertyRepository)
+    public PropertyService(EventPublisher eventPublisher, PropertyRepository propertyRepository)
     {   // perform constructor injection
+        this.eventPublisher = eventPublisher;
         this.propertyRepository = propertyRepository;
     }
 
 
-    public Flux<PropertyDTO> getProperties()
+    public Flux<PropertyCreatedEventDTO> getProperties()
     {
         // returns all the properties in the property collection
         return propertyRepository.findAll().map(PropertyUtils::entityToDto);
     }
 
 
-    public Mono<PropertyDTO> getProperty(String id)
+    public Mono<PropertyCreatedEventDTO> getProperty(String id)
     {
         return propertyRepository.findById(id).map(PropertyUtils::entityToDto);
     }
@@ -55,7 +60,7 @@ public class PropertyService {
     }
 
 
-    public Flux<PropertyDTO> getActiveProperties()
+    public Flux<PropertyCreatedEventDTO> getActiveProperties()
     {
         return propertyRepository.findAll().map(PropertyUtils::entityToDto)
                 .filter(property -> property.getStatus().equals(ACTIVE_STATUS));
@@ -63,7 +68,7 @@ public class PropertyService {
 
 
 
-    public Flux<PropertyDTO> getPendingProperties()
+    public Flux<PropertyCreatedEventDTO> getPendingProperties()
     {
         return propertyRepository.findAll().map(PropertyUtils::entityToDto)
                 .filter(property -> property.getStatus().equals(PENDING_STATUS));
@@ -71,22 +76,22 @@ public class PropertyService {
 
 
 
-    public Flux<PropertyDTO> getSoftDeletedProperties()
+    public Flux<PropertyCreatedEventDTO> getSoftDeletedProperties()
     {
         return propertyRepository.findAll().map(PropertyUtils::entityToDto)
-                .filter(PropertyDTO::isDeleted);
+                .filter(PropertyCreatedEventDTO::isDeleted);
     }
 
 
 
-    public Flux<PropertyDTO> getNonSoftDeletedProperties()
+    public Flux<PropertyCreatedEventDTO> getNonSoftDeleted()
     {
         return propertyRepository.findAll().map(PropertyUtils::entityToDto)
                 .filter(property -> !property.isDeleted());
     }
 
 
-    public Flux<PropertyDTO> getPropertiesBetweenPriceRange(BigDecimal min, BigDecimal max)
+    public Flux<PropertyCreatedEventDTO> getPropertiesBetweenPriceRange(BigDecimal min, BigDecimal max)
     {
         return propertyRepository.findAll().map(PropertyUtils::entityToDto)
         .filter(property -> property.getPrice().compareTo(min) >= 0 && property.getPrice().compareTo(max) <= 0);
@@ -94,15 +99,16 @@ public class PropertyService {
 
 
 
-    public Mono<PropertyDTO> saveProperty(Mono<PropertyDTO> propertyDTOMono)
+    public Mono<PropertyCreatedEventDTO> save(Mono<PropertyCreatedEventDTO> propertyCreatedEventDTOMono)
     {
-        return propertyDTOMono.map(PropertyUtils::dtoToEntity)
+        return propertyCreatedEventDTOMono.map(PropertyUtils::dtoToEntity)
                 .flatMap(propertyRepository::insert)
-                .map(PropertyUtils::entityToDto);
+                .map(PropertyUtils::entityToDto)
+                .doOnNext(propertyCreatedDTO -> eventPublisher.publishToBroker(propertyCreatedDTO, TOPIC_NAME));
     }
 
 
-    public Mono<PropertyDTO> updateProperty(String id, Mono<PropertyDTO> propertyDTOMono)
+    public Mono<PropertyCreatedEventDTO> update(String id, Mono<PropertyCreatedEventDTO> propertyDTOMono)
     {
         return propertyRepository.findById(id)
                 .flatMap(property -> propertyDTOMono.map(PropertyUtils::dtoToEntity))
@@ -112,14 +118,14 @@ public class PropertyService {
     }
 
 
-    public Mono<Void> deleteProperty(String id)
+    public Mono<Void> delete(String id)
     {
         return propertyRepository.deleteById(id);
     }
 
 
 
-    public Mono<Void> softDeleteProperty(String id)
+    public Mono<Void> softDelete(String id)
     {
         return propertyRepository.findById(id)
                 .doOnNext(property -> property.setDeleted(true))
@@ -128,7 +134,7 @@ public class PropertyService {
     }
 
 
-    public Mono<Void> deleteAllProperties()
+    public Mono<Void> deleteProperties()
     {
         // deletes all the properties that have been saved in the property collection
         return propertyRepository.deleteAll();
@@ -136,7 +142,7 @@ public class PropertyService {
 
 
 
-    public Mono<PropertyDTO> setPropertyStatus(String id, String status)
+    public Mono<PropertyCreatedEventDTO> setPropertyStatus(String id, String status)
     {
         return propertyRepository.findById(id)
                 .doOnNext(property -> property.setStatus(status))
@@ -146,7 +152,7 @@ public class PropertyService {
 
 
 
-    public Mono<PropertyDTO> createMessage(String propertyId, List<Message> messages)
+    public Mono<PropertyCreatedEventDTO> createMessage(String propertyId, List<Message> messages)
     {
         return propertyRepository.findById(propertyId)
                 .doOnNext(property -> property.setMessages(messages))

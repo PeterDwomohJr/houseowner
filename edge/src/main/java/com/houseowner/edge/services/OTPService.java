@@ -49,8 +49,9 @@ public class OTPService {
                     .setPhoneNumber(OTPDTO.getPhoneNumber())
                     .build();
 
-            String otpMessage = "Hello dear, your OTP is: " + otpString + ". Use this OTP to complete the Houseowner user registration. Thank you";
+            String otpMessage = "Hello dear, your OTP is: " + otpString + ". Kindly se this OTP to complete the Houseowner user registration. Thank you";
 
+            // Send otp message to SMS Se
             Message.creator(to, from, otpMessage).create();
 
             OTPResponseDTO = new OTPResponseDTO(OTPStatus.DELIVERED, otpMessage);

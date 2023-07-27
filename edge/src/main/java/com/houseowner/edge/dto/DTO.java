@@ -42,6 +42,7 @@ public class DTO {
     private String topic;
     private String subscription;
     private boolean enabled;
+    private String otpValid = "N/A";
     private List<CredentialDTO> credentials;
     private List<String> realmRoles;
     //@NotBlank(message = "The first name field cannot be empty.")

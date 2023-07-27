@@ -19,4 +19,5 @@ public class OTPCreatedEvent {
     private String id;
     private String otpString;
     private String phoneNumber;
+    private String otpValid = "N/A";
 }

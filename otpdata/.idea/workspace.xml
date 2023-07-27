@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="91952c26-3f49-47dd-941b-3b8935d54462" name="Changes" comment="added otp data service to store otps">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lombok.config" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dwomo/otpdata/OtpDataApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dwomo/otpdata/configurations/JwtGrantedAuthoritiesConverter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dwomo/otpdata/configurations/SecurityConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dwomo/otpdata/configurations/SpringAddonsJwtAuthenticationConverter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dwomo/otpdata/configurations/SpringAddonsProperties.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dwomo/otpdata/controllers/OTPDataController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dwomo/otpdata/dto/OTPCreatedEventDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dwomo/otpdata/events/domain/OTPCreatedEvent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dwomo/otpdata/events/handlers/OTPEventHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dwomo/otpdata/repositories/OTPStringRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dwomo/otpdata/services/OTPService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dwomo/otpdata/utils/OTPDataUtils.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/dwomo/OTPData/OtpDataApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../userdata/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../userdata/.mvn/wrapper/maven-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../userdata/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../userdata/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../userdata/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../userdata/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../userdata/src/main/java/com/dwomo/userdata/UserDataApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../userdata/src/main/java/com/dwomo/userdata/configurations/JwtGrantedAuthoritiesConverter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../userdata/src/main/java/com/dwomo/userdata/configurations/SecurityConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../userdata/src/main/java/com/dwomo/userdata/configurations/SpringAddonsJwtAuthenticationConverter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../userdata/src/main/java/com/dwomo/userdata/configurations/SpringAddonsProperties.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../userdata/src/main/java/com/dwomo/userdata/controllers/UserDataController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../userdata/src/main/java/com/dwomo/userdata/dto/UserCreatedEventDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../userdata/src/main/java/com/dwomo/userdata/events/domain/Address.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../userdata/src/main/java/com/dwomo/userdata/events/domain/Picture.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../userdata/src/main/java/com/dwomo/userdata/events/domain/UserCreatedEvent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../userdata/src/main/java/com/dwomo/userdata/events/handlers/UserEventHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../userdata/src/main/java/com/dwomo/userdata/repositories/UserRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../userdata/src/main/java/com/dwomo/userdata/services/UserService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../userdata/src/main/java/com/dwomo/userdata/utils/UserDataUtils.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../userdata/src/main/resources/application.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../userdata/src/test/java/com/dwomo/OTPData/UserDataApplicationTests.java" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="Use Maven wrapper" />
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectCodeStyleSettingsMigration">
+    <option name="version" value="2" />
+  </component>
+  <component name="ProjectId" id="2SsCnvqy7Jt3gfZFiMvZIzm26yy" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "dart.analysis.tool.window.visible": "false",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "/home/kwadwo/houseowner/property",
+    "show.migrate.to.gradle.popup": "false"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src" />
+      <recent name="$PROJECT_DIR$/src/main" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="91952c26-3f49-47dd-941b-3b8935d54462" name="Changes" comment="" />
+      <created>1689926074896</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1689926074896</updated>
+    </task>
+    <task id="LOCAL-00001" summary="added otp data service to store otps">
+      <option name="closed" value="true" />
+      <created>1690288804807</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1690288804807</updated>
+    </task>
+    <task id="LOCAL-00002" summary="added otp data service to store otps">
+      <option name="closed" value="true" />
+      <created>1690296412698</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1690296412698</updated>
+    </task>
+    <task id="LOCAL-00003" summary="added otp data service to store otps">
+      <option name="closed" value="true" />
+      <created>1690350861827</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1690350861828</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="added otp data service to store otps" />
+    <option name="LAST_COMMIT_MESSAGE" value="added otp data service to store otps" />
+  </component>
+</project>

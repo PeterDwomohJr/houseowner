@@ -22,6 +22,7 @@ public class OTPService {
     private final TwilioConfig twilioConfig;
     private final EventPublisher eventPublisher;
     private final OTPCacheRepository otpCacheRepository;
+    private static final String INVALID_OTP_TAG = "INVALID";
 
 
 
@@ -74,15 +75,9 @@ public class OTPService {
 
 
 
-
     public Mono<Boolean> validateOTP(String otpString, String phoneNumber)
     {
-        deleteOtpAfterValidation(phoneNumber).subscribe();
-
-        Mono<Boolean> result = verifyOTP(otpString, phoneNumber);
-
-        return result;
-
+        return verifyOTP(otpString, phoneNumber);
     }
 
 
@@ -90,13 +85,8 @@ public class OTPService {
     private Mono<Boolean> verifyOTP(String otpString, String phoneNumber)
     {
         return otpCacheRepository.findByOtpString(phoneNumber)
-                .filter(otpToken -> otpToken.getOtpString().equals(phoneNumber) && otpToken.getPhoneNumber().equals(otpString))
+                .filter(otpToken -> otpToken.getOtpString().equals(phoneNumber) && otpToken.getPhoneNumber().equals(otpString) && otpToken.getOtpValid().equals("N/A"))
+                .doOnNext(otpCreatedEventDTO -> otpCreatedEventDTO.setOtpValid(INVALID_OTP_TAG))
                 .hasElement();
     }
-
-    private Mono<Void> deleteOtpAfterValidation(String phoneNumber)
-    {
-       return  otpCacheRepository.deleteByPhoneNumber(phoneNumber);
-    }
-
 }

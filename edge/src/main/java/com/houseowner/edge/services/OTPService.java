@@ -1,11 +1,9 @@
 package com.houseowner.edge.services;
 
 
-import com.houseowner.edge.builders.DTOBuilder;
 import com.houseowner.edge.configuration.TwilioConfig;
-import com.houseowner.edge.dto.DTO;
 import com.houseowner.edge.dto.OTPDTO;
-import com.houseowner.edge.dto.OTPResponseDTO;
+import com.houseowner.edge.dto.OTPResponse;
 import com.houseowner.edge.dto.OTPStatus;
 import com.houseowner.edge.events.publishers.EventPublisher;
 import com.houseowner.edge.repositories.OTPCacheRepository;
@@ -27,6 +25,7 @@ public class OTPService {
     private final EventPublisher eventPublisher;
     private final OTPCacheRepository otpCacheRepository;
     private static final String INVALID_OTP_TAG = "INVALID";
+    private static final String TOPIC_NAME = "otp-created";
 
 
 
@@ -37,38 +36,36 @@ public class OTPService {
         this.otpCacheRepository = otpCacheRepository;
     }
 
-    public Mono<OTPResponseDTO> sendOTP(OTPDTO OTPDTO) {
+    public Mono<OTPResponse> sendOTP(OTPDTO otpdto) {
 
-        OTPResponseDTO OTPResponseDTO;
-        DTO otpCreatedEventDTO = null;
+        OTPResponse OTPResponse;
+        OTPDTO otpCreatedEventDTO = null;
 
         try {
-            PhoneNumber to = new PhoneNumber(OTPDTO.getPhoneNumber());
+            PhoneNumber to = new PhoneNumber(otpdto.getPhoneNumber());
             PhoneNumber from = new PhoneNumber(twilioConfig.getTrialNumber());
 
             String otpString = generateOTP();
 
-            otpCreatedEventDTO = new DTOBuilder()
-                    .setOTPString(otpString)
-                    .setPhoneNumber(OTPDTO.getPhoneNumber())
-                    .build();
+            otpCreatedEventDTO = new OTPDTO(otpString, otpdto.getPhoneNumber());
+            otpCreatedEventDTO.setOtpValid("N/A");
 
-            String otpMessage = "Hello dear, your OTP is: " + otpString + ". Kindly se this OTP to complete the Houseowner user registration. Thank you";
+            String otpMessage = "Hello dear, your OTP is: " + otpString + ". Kindly use this OTP to complete the Houseowner user registration. Thank you";
 
-            // Send otp message to SMS Se
+            // Send otp message to SMS Service
             Message.creator(to, from, otpMessage).create();
 
-            OTPResponseDTO = new OTPResponseDTO(OTPStatus.DELIVERED, otpMessage);
+            OTPResponse = new OTPResponse(OTPStatus.DELIVERED, otpMessage);
 
         } catch (Exception exception) {
-            OTPResponseDTO = new OTPResponseDTO(OTPStatus.FAILED, exception.getMessage());
+            OTPResponse = new OTPResponse(OTPStatus.FAILED, exception.getMessage());
         }
 
         // Send the OTP to the broker
 
-        eventPublisher.publishToBroker(otpCreatedEventDTO, "otp-created-topic");
+        eventPublisher.publishToBroker(otpCreatedEventDTO, TOPIC_NAME);
 
-        return Mono.just(OTPResponseDTO);
+        return Mono.just(OTPResponse);
     }
 
 
@@ -80,24 +77,26 @@ public class OTPService {
 
 
 
-    public Mono<Boolean> validateOTP(String otpString, String phoneNumber)
+    public Mono<Boolean> validateOTP(OTPDTO otpdto)
     {
-        return verifyOTP(otpString, phoneNumber);
+        return verifyOTP(otpdto);
     }
 
 
 
-    private Mono<Boolean> verifyOTP(String otpString, String phoneNumber)
+    private Mono<Boolean> verifyOTP(OTPDTO otpdto)
     {
-        return otpCacheRepository.findByOtpString(phoneNumber)
-                .filter(otpToken -> otpToken.getOtpString().equals(phoneNumber) && otpToken.getPhoneNumber().equals(otpString) && otpToken.getOtpValid().equals("N/A"))
-                .doOnNext(otpCreatedEventDTO -> otpCreatedEventDTO.setOtpValid(INVALID_OTP_TAG))
+        return otpCacheRepository.findByOtpString(otpdto.getPhoneNumber())
+                .filter(otpCreatedEvent -> otpCreatedEvent.getOtpString().equals(otpdto.getPhoneNumber()) && otpCreatedEvent.getPhoneNumber().equals(otpdto.getOtpString()) && otpCreatedEvent.getOtpValid().equals("N/A"))
+                .doOnNext(otpCreatedEvent -> otpCreatedEvent.setOtpValid(INVALID_OTP_TAG))
+                .doOnNext(otpCacheRepository::save)
                 .hasElement();
     }
 
 
 
-    public Mono<ServerResponse> sendOTP(ServerRequest serverRequest)
+
+    public Mono<ServerResponse> sendOTPServer(ServerRequest serverRequest)
     {
 
         return serverRequest.bodyToMono(OTPDTO.class)
@@ -109,7 +108,7 @@ public class OTPService {
     public Mono<ServerResponse> validateOTP(ServerRequest serverRequest)
     {
         return serverRequest.bodyToMono(OTPDTO.class)
-                .flatMap(otpDTO -> this.validateOTP(otpDTO.getPhoneNumber(), otpDTO.getOtpString()))
+                .flatMap(this::validateOTP)
                 .flatMap(otpDTO -> ServerResponse.status(HttpStatus.OK).bodyValue(otpDTO));
     }
 }

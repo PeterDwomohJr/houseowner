@@ -20,7 +20,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Component
-public class UserDTO {
+public class UserCreatedEventDTO {
 
     // Define the regular expressions
     private static final String FIRST_NAME_REG_EXP = "^[A-Za-z'-]{2,30}$";

@@ -24,13 +24,16 @@ import java.util.List;
 @Configuration
 public class SecurityConfig {
 
+
+    private static final String CACHE_USER_PATH = "/api/v0/cache-user/**";
     private static final String USER_PATH = "/api/v0/user/**";
+    private static final String CACHE_PROPERTY_PATH = "/api/v0/cache-property/**";
+    private static final String PROPERTY_PATH = "/api/v0/property/**";
     private static final String USER_ROLE = "user";
     private static final String TOKEN_PATH = "/api/v0/token/**";
     private static final String KEYCLOAK_PATH = "/api/v0/keycloak/**";
-    private static final String OTP_DATA_PATH = "/api/v0/otp/**";
+    private static final String OTP_PATH = "/api/v0/otp/**";
     private static final String CACHE_OTP_PATH = "/api/v0/cache-otp/**";
-    private static final String PROPERTY_PATH = "/api/v0/property/**";
     private static final String[] ORIGINS = new String[]{"http://localhost:9091"};
 
     @Bean
@@ -57,12 +60,14 @@ public class SecurityConfig {
 
             http.authorizeExchange(exchange ->
                     exchange
+                            .pathMatchers(CACHE_USER_PATH).hasAuthority(USER_ROLE)
                             .pathMatchers(USER_PATH).hasAuthority(USER_ROLE)
+                            .pathMatchers(CACHE_PROPERTY_PATH).hasAuthority(USER_ROLE)
+                            .pathMatchers(PROPERTY_PATH).hasAuthority(USER_ROLE)
                             .pathMatchers(TOKEN_PATH).permitAll()
                             .pathMatchers(KEYCLOAK_PATH).permitAll()
-                            .pathMatchers(OTP_DATA_PATH).permitAll()
-                            .pathMatchers(CACHE_OTP_PATH).permitAll()
-                            .pathMatchers(PROPERTY_PATH).hasAuthority(USER_ROLE));
+                            .pathMatchers(OTP_PATH).permitAll()
+                            .pathMatchers(CACHE_OTP_PATH).hasAuthority(USER_ROLE));
 
             return http.build();
         }

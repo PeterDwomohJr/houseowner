@@ -3,9 +3,7 @@ package com.dwomo.propertydata.events.handlers;
 import com.dwomo.propertydata.dto.ConsumeTopicRequestDTO;
 import com.dwomo.propertydata.dto.PropertyCreatedEventDTO;
 import com.dwomo.propertydata.services.PropertyService;
-import org.apache.pulsar.client.api.PulsarClient;
-import org.apache.pulsar.client.api.PulsarClientException;
-import org.apache.pulsar.client.api.Schema;
+import org.apache.pulsar.client.api.*;
 import org.apache.pulsar.reactive.client.adapter.AdaptedReactivePulsarClientFactory;
 import org.apache.pulsar.reactive.client.api.MessageResult;
 import org.apache.pulsar.reactive.client.api.ReactiveMessageConsumer;
@@ -41,6 +39,8 @@ public class PropertyEventHandler {
                 .messageConsumer(Schema.JSON(PropertyCreatedEventDTO.class))
                 .topic(consumeTopicRequestDTO.getTopicName())
                 .subscriptionName(consumeTopicRequestDTO.getSubscriptionName())
+                .subscriptionMode(SubscriptionMode.Durable)
+                .subscriptionType(SubscriptionType.Shared)
                 .build();
 
         messageConsumer.consumeMany(messageFlux ->

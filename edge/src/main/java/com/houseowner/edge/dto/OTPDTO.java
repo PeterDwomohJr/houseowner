@@ -12,7 +12,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class OTPDTO {
 
+    private String id;
     private String otpString;
     private String phoneNumber;
+    private String otpValid = "N/A";
 
+    public OTPDTO(String otpString, String phoneNumber) {
+        this.otpString = otpString;
+        this.phoneNumber = phoneNumber;
+    }
 }
+
+

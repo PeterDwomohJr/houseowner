@@ -1,8 +1,8 @@
 package com.houseowner.edge.events.handlers;
 
-import com.houseowner.edge.dto.DTO;
-import com.houseowner.edge.dto.OTPCreatedEventDTO;
 import com.houseowner.edge.dto.ConsumeTopicRequestDTO;
+import com.houseowner.edge.dto.OTPCreatedEventDTO;
+import com.houseowner.edge.dto.OTPDTO;
 import com.houseowner.edge.services.OTPRepositoryService;
 import org.apache.pulsar.client.api.PulsarClient;
 import org.apache.pulsar.client.api.PulsarClientException;
@@ -38,8 +38,8 @@ public class OTPEventHandler {
 
     public void consumeTopic(ConsumeTopicRequestDTO consumeTopicRequestDTO)
     {
-        ReactiveMessageConsumer<DTO> messageConsumer = reactivePulsarClient
-                .messageConsumer(Schema.JSON(DTO.class))
+        ReactiveMessageConsumer<OTPDTO> messageConsumer = reactivePulsarClient
+                .messageConsumer(Schema.JSON(OTPDTO.class))
                 .topic(consumeTopicRequestDTO.getTopicName())
                 .subscriptionName(consumeTopicRequestDTO.getSubscriptionName())
                 .build();

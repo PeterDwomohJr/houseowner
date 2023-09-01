@@ -1,8 +1,9 @@
 package com.dwomo.houseowner.utils;
 
-import com.dwomo.houseowner.aggregate.valueObject.Message;
+import com.dwomo.houseowner.events.domain.Message;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
+
 import java.util.List;
 
 public class ListValidator implements ConstraintValidator<NoPersonallyIdentifiableInformation, List<Message>> {

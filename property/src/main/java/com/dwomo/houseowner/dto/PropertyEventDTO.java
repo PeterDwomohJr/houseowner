@@ -1,9 +1,10 @@
 package com.dwomo.houseowner.dto;
 
-import com.dwomo.houseowner.aggregate.valueObject.LandArea;
-import com.dwomo.houseowner.aggregate.valueObject.Location;
-import com.dwomo.houseowner.aggregate.valueObject.Message;
-import com.dwomo.houseowner.aggregate.valueObject.Picture;
+
+import com.dwomo.houseowner.events.domain.LandArea;
+import com.dwomo.houseowner.events.domain.Location;
+import com.dwomo.houseowner.events.domain.Message;
+import com.dwomo.houseowner.events.domain.Picture;
 import com.dwomo.houseowner.utils.NoPersonallyIdentifiableInformation;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -12,14 +13,15 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
+
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Component
-public class PropertyDTO {
+public class PropertyEventDTO {
 
     private String id;
     @NotBlank(message = "The land title number field cannot be empty.")
@@ -49,5 +51,5 @@ public class PropertyDTO {
     private boolean deleted;
     @CreatedBy
     private String createdBy;
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private Date createdAt = new Date();
 }

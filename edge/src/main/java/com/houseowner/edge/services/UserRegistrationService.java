@@ -14,7 +14,7 @@ public class UserRegistrationService {
     private static final String KEYCLOAK_USER_REGISTER_URI = "http://localhost:8888/admin/realms/houseowner/users";
 
 
-    public Mono<String> registerKeycloakUser(RegisterUserDTO user, String bearerToken) {
+    public Mono<Void> registerKeycloakUser(RegisterUserDTO user, String bearerToken) {
 
         // Create WebClient
         WebClient client = WebClient.builder()
@@ -28,7 +28,7 @@ public class UserRegistrationService {
                  .contentType(MediaType.APPLICATION_JSON)
                  .body(BodyInserters.fromValue(user))
                  .retrieve()
-                 .bodyToMono(String.class);
+                 .bodyToMono(Void.class);
 
     }
 }

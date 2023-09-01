@@ -1,6 +1,5 @@
 package com.houseowner.edge.services;
 
-import com.houseowner.edge.builders.DTOBuilder;
 import com.houseowner.edge.dto.JWTTokenDTO;
 import com.houseowner.edge.dto.JWTTokenResponseDTO;
 import org.springframework.http.HttpHeaders;
@@ -22,7 +21,7 @@ public class JWTTokenService {
     private static final String KEYCLOAK_TOKEN_URL = "http://localhost:8888/realms/houseowner/protocol/openid-connect/token";
 
 
-    public Flux<JWTTokenResponseDTO> generateJWTToken(DTOBuilder jwtTokenDTO) {
+    public Flux<JWTTokenResponseDTO> generateJWTToken(JWTTokenDTO jwtTokenDTO) {
 
         WebClient client = WebClient.builder()
                 .baseUrl(KEYCLOAK_TOKEN_URL)
@@ -41,14 +40,14 @@ public class JWTTokenService {
     }
 
 
-    public Flux<String> getJWTAccessToken(DTOBuilder jwtTokenDTO)
+    public Flux<String> getJWTAccessToken(JWTTokenDTO jwtTokenDTO)
     {
         Flux<JWTTokenResponseDTO> jwtTokenResponse = generateJWTToken(jwtTokenDTO);
         return jwtTokenResponse.map(JWTTokenResponseDTO::getAccess_token);
     }
 
 
-    public Flux<String> getJWTRefreshToken(DTOBuilder jwtTokenDTO)
+    public Flux<String> getJWTRefreshToken(JWTTokenDTO jwtTokenDTO)
     {
         Flux<JWTTokenResponseDTO> jwtTokenResponse = generateJWTToken(jwtTokenDTO);
         return jwtTokenResponse.map(JWTTokenResponseDTO::getRefresh_token);

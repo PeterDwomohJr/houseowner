@@ -24,7 +24,7 @@ import java.util.List;
 @Configuration
 public class SecurityConfig {
 
-    private static final String CACHE_PROPERTY_PATH = "/api/v0/cache-property/**";
+    private static final String PROPERTY_PATH = "/api/v0/property/**";
     private static final String USER_ROLE = "user";
     private static final String[] ORIGINS = new String[]{"http://localhost:9091"};
 
@@ -52,7 +52,7 @@ public class SecurityConfig {
 
             http.authorizeExchange(exchange ->
                     exchange
-                            .pathMatchers(CACHE_PROPERTY_PATH).hasAuthority(USER_ROLE));
+                            .pathMatchers(PROPERTY_PATH).hasAuthority(USER_ROLE));
 
             return http.build();
         }

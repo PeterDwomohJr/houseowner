@@ -1,7 +1,7 @@
 package com.houseowner.edge.write;
 
 
-import com.houseowner.edge.dto.UserDTO;
+import com.houseowner.edge.dto.UserCreatedEventDTO;
 import com.houseowner.edge.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -10,7 +10,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
-@RequestMapping("api/v0/user")
+@RequestMapping("api/v0/cache-user")
 @EnableReactiveMethodSecurity(useAuthorizationManager = true)
 @RestController
 public class UserWriteController {
@@ -26,7 +26,7 @@ public class UserWriteController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping()
-    public Mono<UserDTO> saveUser(@Valid @RequestBody Mono<UserDTO> user)
+    public Mono<UserCreatedEventDTO> saveUser(@Valid @RequestBody Mono<UserCreatedEventDTO> user)
     {
         // save the user
         return userService.save(user);
@@ -35,7 +35,7 @@ public class UserWriteController {
 
     @PreAuthorize("hasAuthority('user')")
     @PutMapping()
-    public Mono<UserDTO> updateUser(@PathVariable String id, @Valid @RequestBody Mono<UserDTO> user)
+    public Mono<UserCreatedEventDTO> updateUser(@PathVariable String id, @Valid @RequestBody Mono<UserCreatedEventDTO> user)
     {
         // update the user with the given id
         return userService.update(id, user);
@@ -74,7 +74,7 @@ public class UserWriteController {
 
     @PreAuthorize("hasAuthority('user')")
     @PatchMapping("/{id}")
-    public Mono<UserDTO> setUserStatus(@PathVariable String id, @RequestParam String status)
+    public Mono<UserCreatedEventDTO> setUserStatus(@PathVariable String id, @RequestParam String status)
     {
         // set the user status
         return userService.setUserStatus(id, status);

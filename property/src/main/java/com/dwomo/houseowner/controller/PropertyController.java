@@ -1,6 +1,6 @@
 package com.dwomo.houseowner.controller;
 
-import com.dwomo.houseowner.dto.PropertyCreatedEventDTO;
+import com.dwomo.houseowner.dto.PropertyEventDTO;
 import com.dwomo.houseowner.service.PropertyService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -9,9 +9,8 @@ import reactor.core.publisher.Mono;
 import java.math.BigDecimal;
 
 @RestController
-@RequestMapping("api/v0/cache-property")
+@RequestMapping("api/v0/property")
 public class PropertyController {
-
     private final PropertyService propertyService;
 
 
@@ -22,21 +21,21 @@ public class PropertyController {
 
 
 
-    @GetMapping()
+    @GetMapping("/all")
     @PreAuthorize("hasAuthority('admin')")
-    public Flux<PropertyCreatedEventDTO> getProperties()
+    public Flux<PropertyEventDTO> getProperties()
     {
         // This will return all the properties in the property repository, both active and pending
         return propertyService.getProperties();
     }
 
 
-    @GetMapping({"/{id}"})
+    @GetMapping()
     @PreAuthorize("hasAuthority('user')")
-    public Mono<PropertyCreatedEventDTO> getProperty(@PathVariable String id)
+    public Mono<PropertyEventDTO> getProperty()
     {
         // This will return a single property that is associated with the included id
-        return propertyService.getProperty(id);
+        return propertyService.getProperty();
     }
 
 
@@ -51,7 +50,7 @@ public class PropertyController {
 
     @GetMapping("/active")
     @PreAuthorize("hasAuthority('admin')")
-    public Flux<PropertyCreatedEventDTO> getActiveProperties()
+    public Flux<PropertyEventDTO> getActiveProperties()
     {
         // Active properties are properties that have been verified to be genuine
         return propertyService.getActiveProperties();
@@ -61,7 +60,7 @@ public class PropertyController {
 
     @GetMapping("/pending")
     @PreAuthorize("hasAuthority('admin')")
-    public Flux<PropertyCreatedEventDTO> getPendingProperties()
+    public Flux<PropertyEventDTO> getPendingProperties()
     {
         // Pending properties are ones that have not been verified to be genuine
         return propertyService.getPendingProperties();
@@ -71,7 +70,7 @@ public class PropertyController {
 
     @GetMapping("/soft-deleted")
     @PreAuthorize("hasAuthority('admin')")
-    public Flux<PropertyCreatedEventDTO> getSoftDeletedProperties()
+    public Flux<PropertyEventDTO> getSoftDeletedProperties()
     {
         // Soft deletion marks the property as deleted but do not remove it from the property repository
         return propertyService.getSoftDeletedProperties();
@@ -80,7 +79,7 @@ public class PropertyController {
 
     @GetMapping("/non-deleted")
     @PreAuthorize("hasAuthority('admin')")
-    public Flux<PropertyCreatedEventDTO> getNonSoftDeleteProperties()
+    public Flux<PropertyEventDTO> getNonSoftDeleteProperties()
     {
         // This returns all the properties have not been marked as deleted
         return propertyService.getNonSoftDeleted();
@@ -90,8 +89,19 @@ public class PropertyController {
 
     @GetMapping("/range")
     @PreAuthorize("hasAuthority('user')")
-    public Flux<PropertyCreatedEventDTO> getPropertiesBetweenRange(@RequestParam BigDecimal min, @RequestParam BigDecimal max)
+    public Flux<PropertyEventDTO> getPropertiesBetweenRange(@RequestParam BigDecimal min, @RequestParam BigDecimal max)
     {
+        // This returns properties that ar within a particular price range
         return propertyService.getPropertiesBetweenPriceRange(min, max);
+    }
+
+
+
+    @GetMapping("/search/{locationName}")
+    @PreAuthorize("hasAuthority('user')")
+    public Flux<PropertyEventDTO> searchProperty(@PathVariable String locationName)
+    {
+        // This returns properties that are in a particular location
+        return propertyService.searchProperty(locationName);
     }
 }

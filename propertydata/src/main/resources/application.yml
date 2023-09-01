@@ -1,5 +1,5 @@
 server:
-  port: 9092
+  port: 9093
   shutdown: graceful
   error:
     include-message: always
@@ -9,7 +9,7 @@ server:
   data:
     mongo:
       host: localhost
-      port: 27021
+      port: 27019
       database: PropertyDatabase
 
 

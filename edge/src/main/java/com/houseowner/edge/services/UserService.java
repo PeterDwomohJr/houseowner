@@ -1,6 +1,6 @@
 package com.houseowner.edge.services;
 
-import com.houseowner.edge.dto.UserDTO;
+import com.houseowner.edge.dto.UserCreatedEventDTO;
 import com.houseowner.edge.repositories.UserRepository;
 import com.houseowner.edge.utils.UserUtils;
 import org.springframework.stereotype.Service;
@@ -22,7 +22,7 @@ public class UserService {
 
 
 
-    public Flux<UserDTO> getUsers()
+    public Flux<UserCreatedEventDTO> getUsers()
     {
         // returns all the users in the repository
         return userRepository.findAll().map(UserUtils::entityToDTO);
@@ -30,7 +30,7 @@ public class UserService {
 
 
 
-    public Mono<UserDTO> getUser(String id)
+    public Mono<UserCreatedEventDTO> getUser(String id)
     {
         // returns the user with the given id
         return userRepository.findById(id).map(UserUtils::entityToDTO);
@@ -38,7 +38,7 @@ public class UserService {
 
 
 
-    public Mono<UserDTO> getUserByPhoneNumber(String phoneNumber)
+    public Mono<UserCreatedEventDTO> getUserByPhoneNumber(String phoneNumber)
     {
         // returns the user with the given phone number
         return userRepository.findByPhoneNumber(phoneNumber).map(UserUtils::entityToDTO);
@@ -54,7 +54,7 @@ public class UserService {
     }
 
 
-    public Flux<UserDTO> getActive()
+    public Flux<UserCreatedEventDTO> getActive()
     {
         // returns all the active users in the repository
         return userRepository.findAll().map(UserUtils::entityToDTO)
@@ -63,7 +63,7 @@ public class UserService {
 
 
 
-    public Flux<UserDTO> getPending()
+    public Flux<UserCreatedEventDTO> getPending()
     {
         // returns all the pending users in the repository
         return userRepository.findAll().map(UserUtils::entityToDTO)
@@ -72,16 +72,16 @@ public class UserService {
 
 
 
-    public Flux<UserDTO> getSoftDeleted()
+    public Flux<UserCreatedEventDTO> getSoftDeleted()
     {
         // returns all the soft deleted users in the repository
         return userRepository.findAll().map(UserUtils::entityToDTO)
-                .filter(UserDTO::isDeleted);
+                .filter(UserCreatedEventDTO::isDeleted);
     }
 
 
 
-    public Flux<UserDTO> getNonSoftDeleted()
+    public Flux<UserCreatedEventDTO> getNonSoftDeleted()
     {
         // returns all the non-soft deleted users in the repository
         return userRepository.findAll().map(UserUtils::entityToDTO)
@@ -90,7 +90,7 @@ public class UserService {
 
 
 
-    public Mono<UserDTO> save(Mono<UserDTO> propertyDTOMono)
+    public Mono<UserCreatedEventDTO> save(Mono<UserCreatedEventDTO> propertyDTOMono)
     {
         // returns the saved user
         return propertyDTOMono.map(UserUtils::dtoToEntity)
@@ -99,7 +99,7 @@ public class UserService {
     }
 
 
-    public Mono<UserDTO> update(String id, Mono<UserDTO> propertyDTOMono)
+    public Mono<UserCreatedEventDTO> update(String id, Mono<UserCreatedEventDTO> propertyDTOMono)
     {
         // returns the updated user
         return userRepository.findById(id)
@@ -136,7 +136,7 @@ public class UserService {
 
 
 
-    public Mono<UserDTO> setUserStatus(String id, String status)
+    public Mono<UserCreatedEventDTO> setUserStatus(String id, String status)
     {
         // sets the status of the user
         return userRepository.findById(id)

@@ -1,7 +1,7 @@
 package com.dwomo.houseowner.events.publisher;
 
 
-import com.dwomo.houseowner.dto.PropertyCreatedEventDTO;
+import com.dwomo.houseowner.dto.PropertyEventDTO;
 import org.apache.pulsar.client.api.PulsarClient;
 import org.apache.pulsar.client.api.PulsarClientException;
 import org.apache.pulsar.client.api.Schema;
@@ -30,15 +30,15 @@ public class EventPublisher {
 
 
 
-    public void publishToBroker(PropertyCreatedEventDTO propertyCreatedEventDTO, String topic)
+    public void publishToBroker(PropertyEventDTO propertyEventDTO, String topic)
     {
-        ReactiveMessageSender<PropertyCreatedEventDTO> messageSender = reactivePulsarClient
-                .messageSender(Schema.JSON(PropertyCreatedEventDTO.class))
+        ReactiveMessageSender<PropertyEventDTO> messageSender = reactivePulsarClient
+                .messageSender(Schema.JSON(PropertyEventDTO.class))
                 .cache(AdaptedReactivePulsarClientFactory.createCache())
                 .topic(topic)
                 .maxInflight(MAX_IN_FLIGHT)
                 .build();
 
-        messageSender.sendOne(MessageSpec.of(propertyCreatedEventDTO)).subscribe();
+        messageSender.sendOne(MessageSpec.of(propertyEventDTO)).subscribe();
     }
 }

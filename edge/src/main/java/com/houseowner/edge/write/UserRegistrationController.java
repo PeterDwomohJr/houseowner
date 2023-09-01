@@ -21,7 +21,7 @@ public class UserRegistrationController {
 
     @PostMapping("/user/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public Mono<String> registerKeycloakUser(@RequestBody RegisterUserDTO user, @RequestParam("bearerToken") String bearerToken)
+    public Mono<Void> registerKeycloakUser(@RequestBody RegisterUserDTO user, @RequestParam("bearerToken") String bearerToken)
     {
         return userRegistrationService.registerKeycloakUser(user, bearerToken);
     }

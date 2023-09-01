@@ -1,10 +1,6 @@
 package com.dwomo.houseowner.events.domain;
 
 
-import com.dwomo.houseowner.aggregate.valueObject.LandArea;
-import com.dwomo.houseowner.aggregate.valueObject.Location;
-import com.dwomo.houseowner.aggregate.valueObject.Message;
-import com.dwomo.houseowner.aggregate.valueObject.Picture;
 import com.dwomo.houseowner.utils.NoPersonallyIdentifiableInformation;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -15,7 +11,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -23,7 +19,7 @@ import java.util.List;
 @NoArgsConstructor
 @Document(collection = "properties")
 @Component
-public class PropertyCreatedEvent {
+public class PropertyEvent {
 
     @Id
     private String id;
@@ -54,5 +50,6 @@ public class PropertyCreatedEvent {
     private boolean deleted;
     @CreatedBy
     private String createdBy;
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private Date createdAt = new Date();
+
 }

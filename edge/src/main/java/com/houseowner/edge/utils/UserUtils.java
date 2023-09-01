@@ -2,7 +2,7 @@ package com.houseowner.edge.utils;
 
 
 import com.houseowner.edge.aggregates.entities.User;
-import com.houseowner.edge.dto.UserDTO;
+import com.houseowner.edge.dto.UserCreatedEventDTO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
@@ -10,21 +10,21 @@ import org.springframework.stereotype.Component;
 public class UserUtils {
 
 
-    public static UserDTO entityToDTO(User user)
+    public static UserCreatedEventDTO entityToDTO(User user)
     {
-        UserDTO userDTO = new UserDTO();
+        UserCreatedEventDTO userCreatedEventDTO = new UserCreatedEventDTO();
 
-        BeanUtils.copyProperties(user, userDTO);
+        BeanUtils.copyProperties(user, userCreatedEventDTO);
 
-        return userDTO;
+        return userCreatedEventDTO;
     }
 
 
-    public static User dtoToEntity(UserDTO userDTO)
+    public static User dtoToEntity(UserCreatedEventDTO userCreatedEventDTO)
     {
         User user = new User();
 
-        BeanUtils.copyProperties(userDTO, user);
+        BeanUtils.copyProperties(userCreatedEventDTO, user);
 
         return user;
     }

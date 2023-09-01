@@ -1,3 +1,5 @@
+/**
+
 package com.houseowner.edge.dto;
 
 
@@ -81,9 +83,11 @@ public class DTO {
 
     public static DTO getInstance()
     {
-        if (instance != null) {
+        if (instance == null) {
             return new DTO();
         }
         return instance;
     }
 }
+
+ **/

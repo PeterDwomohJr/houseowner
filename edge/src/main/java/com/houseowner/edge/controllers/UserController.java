@@ -1,6 +1,6 @@
 package com.houseowner.edge.controllers;
 
-import com.houseowner.edge.dto.UserDTO;
+import com.houseowner.edge.dto.UserCreatedEventDTO;
 import com.houseowner.edge.services.UserService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity;
@@ -11,7 +11,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import java.util.Map;
 
-@RequestMapping("api/v0/user")
+@RequestMapping("api/v0/cache-user")
 @EnableReactiveMethodSecurity(useAuthorizationManager = true)
 @RestController
 public class UserController {
@@ -28,7 +28,7 @@ public class UserController {
 
     @GetMapping("/all")
     @PreAuthorize("hasAuthority('admin')")
-    public Flux<UserDTO> getUsers()
+    public Flux<UserCreatedEventDTO> getUsers()
     {
         // returns all the users
         return userService.getUsers();
@@ -38,7 +38,7 @@ public class UserController {
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('user')")
-    public Mono<UserDTO> getUser(@PathVariable String id)
+    public Mono<UserCreatedEventDTO> getUser(@PathVariable String id)
     {
         // returns the user with the given id
         return userService.getUser(id);
@@ -47,7 +47,7 @@ public class UserController {
 
 
     @GetMapping("/phone")
-    public Mono<UserDTO> getUserByPhoneNumber(@RequestBody String phoneNumber)
+    public Mono<UserCreatedEventDTO> getUserByPhoneNumber(@RequestBody String phoneNumber)
     {
         // returns the user with the associated phone number
         return userService.getUserByPhoneNumber(phoneNumber);
@@ -76,7 +76,7 @@ public class UserController {
 
     @GetMapping("/active")
     @PreAuthorize("hasAuthority('admin')")
-    public Flux<UserDTO> getActiveUsers()
+    public Flux<UserCreatedEventDTO> getActiveUsers()
     {
         // returns all the users that are active in the repository
         return userService.getActive();
@@ -86,7 +86,7 @@ public class UserController {
 
     @GetMapping("/pending")
     @PreAuthorize("hasAuthority('admin')")
-    public Flux<UserDTO> getPendingUsers()
+    public Flux<UserCreatedEventDTO> getPendingUsers()
     {
         // returns all the users that are pending in the repository
         return userService.getPending();
@@ -96,7 +96,7 @@ public class UserController {
 
     @GetMapping("soft-deleted")
     @PreAuthorize("hasAuthority('admin')")
-    public Flux<UserDTO> getSoftDeletedUsers()
+    public Flux<UserCreatedEventDTO> getSoftDeletedUsers()
     {
         // returns all the users that are soft deleted
         return userService.getSoftDeleted();
@@ -105,7 +105,7 @@ public class UserController {
 
 
     @GetMapping("/non-deleted")
-    public Flux<UserDTO> getNonSoftDeletedUsers()
+    public Flux<UserCreatedEventDTO> getNonSoftDeletedUsers()
     {
         // returns all the users that are not soft deleted
         return userService.getNonSoftDeleted();

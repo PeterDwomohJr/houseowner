@@ -1,7 +1,7 @@
 package com.houseowner.edge.controllers;
 
 
-import com.houseowner.edge.builders.DTOBuilder;
+import com.houseowner.edge.dto.JWTTokenDTO;
 import com.houseowner.edge.dto.JWTTokenResponseDTO;
 import com.houseowner.edge.services.JWTTokenService;
 import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity;
@@ -24,21 +24,21 @@ public class JWTTokenController {
 
 
     @PostMapping()
-    public Flux<JWTTokenResponseDTO> generateJWTToken(@RequestBody DTOBuilder jwtTokenDTO)
+    public Flux<JWTTokenResponseDTO> generateJWTToken(@RequestBody JWTTokenDTO jwtTokenDTO)
     {
         return jwtTokenService.generateJWTToken(jwtTokenDTO);
     }
 
 
-    @GetMapping("/accesstoken")
-    public Flux<String> getJWTAccessToken(@RequestBody DTOBuilder jwtTokenDTO)
+    @GetMapping()
+    public Flux<String> getJWTAccessToken(@RequestBody JWTTokenDTO jwtTokenDTO)
     {
         return jwtTokenService.getJWTAccessToken(jwtTokenDTO);
     }
 
 
-    @GetMapping("/refreshtoken")
-    public Flux<String> getJWTRefreshToken(@RequestBody DTOBuilder jwtTokenDTO)
+    @GetMapping("/refresh")
+    public Flux<String> getJWTRefreshToken(@RequestBody JWTTokenDTO jwtTokenDTO)
     {
         return jwtTokenService.getJWTRefreshToken(jwtTokenDTO);
     }

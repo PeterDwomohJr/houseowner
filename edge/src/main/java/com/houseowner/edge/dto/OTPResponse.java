@@ -1,18 +1,17 @@
-package com.dwomo.houseowner.aggregate.valueObject;
+package com.houseowner.edge.dto;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
 @Component
-public class Picture {
+public class OTPResponse {
 
-    private String pictureURL;
-    private List<String> metadata;
+    private OTPStatus status;
+    private String message;
 }

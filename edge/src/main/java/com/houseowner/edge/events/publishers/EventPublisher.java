@@ -1,7 +1,6 @@
 package com.houseowner.edge.events.publishers;
 
-import com.houseowner.edge.dto.DTO;
-import com.houseowner.edge.events.Domain.OTPCreatedEvent;
+import com.houseowner.edge.dto.OTPDTO;
 import org.apache.pulsar.client.api.PulsarClient;
 import org.apache.pulsar.client.api.PulsarClientException;
 import org.apache.pulsar.client.api.Schema;
@@ -30,10 +29,10 @@ public class EventPublisher {
 
 
 
-    public void publishToBroker(DTO otpCreatedEvent, String topic)
+    public void publishToBroker(OTPDTO otpCreatedEvent, String topic)
     {
-        ReactiveMessageSender<DTO> messageSender = reactivePulsarClient
-                .messageSender(Schema.JSON(DTO.class))
+        ReactiveMessageSender<OTPDTO> messageSender = reactivePulsarClient
+                .messageSender(Schema.JSON(OTPDTO.class))
                 .cache(AdaptedReactivePulsarClientFactory.createCache())
                 .topic(topic)
                 .maxInflight(MAX_IN_FLIGHT)

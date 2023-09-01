@@ -9,7 +9,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class EdgeApplication {
-
 	private final TwilioConfig twilioConfig;
 
 	public EdgeApplication(TwilioConfig twilioConfig)

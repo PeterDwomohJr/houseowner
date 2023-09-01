@@ -24,7 +24,7 @@ import java.util.List;
 @Configuration
 public class SecurityConfig {
 
-    private static final String PROPERTY_DATA_PATH = "/api/v0/property/**";
+    private static final String PROPERTY_DATA_PATH = "/api/v0/cache-property/**";
     private static final String USER_ROLE = "user";
     private static final String[] ORIGINS = new String[]{"http://localhost:9096"};
 

@@ -25,7 +25,7 @@ public class OTPWriteController {
     public RouterFunction<ServerResponse> sendOTP()
     {
         return RouterFunctions.route()
-                .POST("api/v0/otp/send", otpService::sendOTP)
+                .POST("api/v0/otp/send", otpService::sendOTPServer)
                 .POST("api/v0/otp/validate", otpService::validateOTP)
                 .build();
     }

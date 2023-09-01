@@ -5,11 +5,9 @@ import com.houseowner.edge.dto.OTPCreatedEventDTO;
 import com.houseowner.edge.dto.ConsumeTopicRequestDTO;
 import com.houseowner.edge.events.handlers.OTPEventHandler;
 import com.houseowner.edge.services.OTPRepositoryService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -40,7 +38,7 @@ public class OTPRepositoryController {
 
 
 
-    @GetMapping("/consume")
+    @PostMapping("/consume")
     public void consumeTopic(@RequestBody ConsumeTopicRequestDTO consumeTopicRequestDTO)
     {
         otpEventHandler.consumeTopic(consumeTopicRequestDTO);
@@ -48,6 +46,7 @@ public class OTPRepositoryController {
 
 
     @GetMapping("/count")
+    @PreAuthorize("hasAuthority('user')")
     public Mono<Long> getOTPCount()
     {
         return otpRepositoryService.getCount();
